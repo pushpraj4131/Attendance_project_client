@@ -37,7 +37,7 @@ export class LoginComponent implements OnInit {
 	get f() { return this.loginForm.controls; }
 
 	login(value){
-		this._loginService.loginUser(value , this.loginFlag).subscribe((response) => {
+		this._loginService.loginUser(value).subscribe((response) => {
 			console.log("successfull login"  , response);
 
 			this.isDisable = false;

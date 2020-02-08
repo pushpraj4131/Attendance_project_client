@@ -18,8 +18,7 @@ export class LoginService {
 	public get currentUserValue(): any {
         return this.currentUserSubject.value;
     }
-	loginUser(body , flag){
-		body['flag'] = flag;
+	loginUser(body ){
 		return this._http.post(  config.baseApiUrl+"user/login" , body)
 		.pipe(map(user => {
 			console.log("login user=========>", user);

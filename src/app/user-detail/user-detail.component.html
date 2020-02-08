@@ -130,38 +130,21 @@
 							</tr>
 						</thead>
 						<tbody>
-							<ng-container *ngIf="fiveDaysLogs && !search">
-								<tr  *ngFor="let data of fiveDaysLogs | paginate:{itemsPerPage: 5, currentPage:p}; let i = index">
-									<th scope="row">
-										{{ data.date }}
-									</th>
-									<td>
-										{{data.day}}
-									</td>
-									<td>
-										{{data.diffrence}}
-									</td>
-									<td>
-										<a  id="viewMore" (click)="openModel(5 * (p - 1) + i)"><span class="viewMore">View More</span></a>
-									</td>
-								</tr>
-							</ng-container>
-							<ng-container *ngIf="fiveDaysLogs && search">
-								<tr  *ngFor="let data of logs | paginate:{itemsPerPage: 5, currentPage:p}; let i = index">
-									<th scope="row" class="text-uppercase">
-										{{ data.date }}
-									</th>
-									<td>
-										{{data.day}}
-									</td>
-									<td>
-										{{data.diffrence}}
-									</td>
-									<td>
-										<a  id="viewMore" (click)="openModel(5 * (p - 1) + i)"><span class="viewMore">View More</span></a>
-									</td>
-								</tr>
-							</ng-container>
+							<tr  *ngFor="let data of logs | paginate:{itemsPerPage: 5, currentPage:p}; let i = index">
+								<th scope="row" class="text-uppercase">
+									{{ data.date }}
+								</th>
+								<td>
+									{{data.day}}
+								</td>
+								<td>
+									{{data.diffrence}}
+								</td>
+								<td>
+									<a  id="viewMore" (click)="openModel(5 * (p - 1) + i)"><span class="viewMore">View More</span></a>
+								</td>
+							</tr>
+							
 						</tbody>
 						<pagination-controls *ngIf="userInfo.userRole == 'admin'"  (pageChange)="p=$event"></pagination-controls>
 					</table>
