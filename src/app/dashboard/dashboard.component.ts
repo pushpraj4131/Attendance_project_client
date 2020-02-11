@@ -222,7 +222,7 @@ export class DashboardComponent implements OnInit {
 		})	
 	}
 	searchByName(items){
-		var field1 = (<HTMLInputElement>document.getElementById("nameSearch1")).value;
+		var field1 = (<HTMLInputElement>document.getElementById("nameSearch")).value;
 		console.log(field1)
 		this.todaysAttendance = this._filterPipe.transform(items, field1);
 	}

@@ -119,11 +119,31 @@ export class UserReportComponent implements OnInit {
 		}
 		this._logsService.getReportFlagWise(value).subscribe(async(res:any)=>{
 			console.log("response ================>" , res);
+			console.log("response ================>" , res.length);
 			this.isDisable = false;
-			if(res.length == 0){
-				console.log("No data found");
+			if(res.length == 0 ){
+				console.log("IN IF");
+				if(value.id != 'All'){
+					this.allEmployeeSearch = false;
+					console.log("No data found"  , value.id);
+					this.developers.forEach((dev)=>{
+						if(dev._id == value.id){
+							this.searchRecordDate = moment(value.startDate).format('MMMM YYYY');
+							this.foundRecordUser = dev;
+						}
+					});
+					this.totalHoursWorked = 0;
+					this.totalHoursToWork = 0;
+				}
+				else{
+					this.totalHoursWorked = 0;
+					this.totalHoursToWork = 0;
+					this.allEmployeeSearch = true;	
+				}
 			}
 			else if(!res.foundLogs){
+				console.log("IN else IF");
+				this.allEmployeeSearch = true;
 				this.logs = null;
 				this.searchRecordDate= null;
 				this.allEmployeeSearch = true;
@@ -140,6 +160,7 @@ export class UserReportComponent implements OnInit {
 				console.log("table header =++>",this.tableHeader);
 				console.log("table daat =+++>",this.tableData);
 			}else{
+				console.log("IN ELSE");
 				this.allEmployeeSearch = false;
 				res.foundLogs.forEach((data) => {
 					if(data.diffrence != '-'){

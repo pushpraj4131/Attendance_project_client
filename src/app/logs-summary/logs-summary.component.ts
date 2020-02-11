@@ -33,8 +33,6 @@ export class LogsSummaryComponent implements OnInit {
 	previousData : any;
 	logs : any;
 	flag = false;
-	getLogsBySingleDate = false;
-	getLogsBetweenDates = false;
 	search:any;
 	totalHoursToWork:any;
 	totalHoursWorked:any;
@@ -42,9 +40,10 @@ export class LogsSummaryComponent implements OnInit {
 		private router: Router , public _loginService: LoginService , public _filterPipe: FilterPipe) { }
 
 	ngOnInit() {
+		this.userInfo = JSON.parse(localStorage.getItem("currentUser"));
 		var branchName = localStorage.getItem('branchSelected');
 		var self = this;
-		$(document).ready(function(){
+		$(document).ready(() => {
 			if(branchName == 'rajkot'){
 
 				$("#rajkot").addClass( "active");
@@ -56,11 +55,12 @@ export class LogsSummaryComponent implements OnInit {
 			}
 			$(function() {
 
-				var start = moment().subtract(29, 'days');
-				var end = moment();
+				var start = moment().startOf('month');
+				var end = moment().endOf('month');
 
 				function cb(start, end) {
-					self.getRangeDate(start, end);
+					if(self.userInfo.userRole != 'admin')
+						self.getRangeDate(start, end);
 				}
 
 				$('#reportrange').daterangepicker({
@@ -83,17 +83,15 @@ export class LogsSummaryComponent implements OnInit {
 			
 
 		});
-		this.userInfo = JSON.parse(localStorage.getItem("currentUser"));
-		this.getLogsCountByMonthDefault();
-		if(this.userInfo.userRole != 'admin')
-			this.page(1);
-		else if(this.userInfo.userRole == 'admin'){
+		// this.getLogsCountByMonthDefault();
+		
+		if(this.userInfo.userRole == 'admin'){
 			this.getTodaysAttendance();
 			this.search = false;
 			// this.page(1);
 		}
 	}
-	
+	// ADMIN FUNCTION
 	getLogsCountByMonthDefault(){
 		this._logService.getLogsCountByMonthDefault().subscribe((response: any) => {
 			// this.currentMonthLogs = response;
@@ -113,31 +111,26 @@ export class LogsSummaryComponent implements OnInit {
 	}
 	openModel(index){
 		console.log("hey" , index);
-		if(!this.search){
-			this.modelValue = this.currentMonthLogs[index];
-			console.log(this.modelValue);
-		}else{
-			this.modelValue = this.logs[index];
-		}
+		this.modelValue = this.logs[index];
 		$('#myModal').modal('show');
 	}
 	// If userRole == employee
-	page(i){
-		console.log("====>" , i);
-		this._logService.getLogsByMonthDefaultByPage({page : i}).subscribe((response:any) => {
-			console.log("response of getLogsByMonthDefault ==>" , response);
-			this.currentMonthLogs = this.properFormatDate(response.foundLogs);
-			this.totalHoursToWork = response.TotalHoursToComplete;
-			this.totalHoursWorked = response.TotalHoursCompleted;
-			console.log("total hours attednent ====>" , this.totalHoursToWork);
-			console.log("total hours to attendnace====>" , this.totalHoursWorked);
-			// this.currentMonthLogs =  this.properFormatDate(response);
-			// this.calculateTotalDuration(this.currentMonthLogs , 5 , moment() , moment().subtract(6, 'days'));
-			// this.currentMonthLogs = response;
-		}, (err) => {
-			console.log("err of getLogsByMonthDefault ==>" , err);
-		});	
-	}
+	// page(i){
+	// 	console.log("====>" , i);
+	// 	this._logService.getLogsByMonthDefaultByPage({page : i}).subscribe((response:any) => {
+	// 		console.log("response of getLogsByMonthDefault ==>" , response);
+	// 		this.currentMonthLogs = this.properFormatDate(response.foundLogs);
+	// 		this.totalHoursToWork = response.TotalHoursToComplete;
+	// 		this.totalHoursWorked = response.TotalHoursCompleted;
+	// 		console.log("total hours attednent ====>" , this.totalHoursToWork);
+	// 		console.log("total hours to attendnace====>" , this.totalHoursWorked);
+	// 		// this.currentMonthLogs =  this.properFormatDate(response);
+	// 		// this.calculateTotalDuration(this.currentMonthLogs , 5 , moment() , moment().subtract(6, 'days'));
+	// 		// this.currentMonthLogs = response;
+	// 	}, (err) => {
+	// 		console.log("err of getLogsByMonthDefault ==>" , err);
+	// 	});	
+	// }
 	logout() {
 		console.log("logiut ccalled");
 		this._loginService.logout();
@@ -152,15 +145,16 @@ export class LogsSummaryComponent implements OnInit {
 			console.log(" this.data.firstDate " , this.data.firstDate);
 			this.previousData = this.data;
 			this._logService.getLogsBySingleDate(this.data).subscribe(res =>{
-				this.getLogsBetweenDates = false;
-				this.getLogsBySingleDate = true;
-				this.currentMonthLogs = this.properFormatDate(res);
+				this.logs = res;
+				
+				// this.logs = this.properFormatDate(res);
+				// this.currentMonthLogs = this.properFormatDate(res);
 				// this.currentMonthLogs = res;
 
 				this.searchData = res
-				if(this.currentMonthLogs.length != 0){
-					this.previousData = false;
-				}
+				// if(this.currentMonthLogs.length != 0){
+				// 	this.previousData = false;
+				// }
 				this.flag = false;
 				console.log(res);
 			} , err =>{
@@ -172,7 +166,9 @@ export class LogsSummaryComponent implements OnInit {
 	getTodaysAttendance(){
 		this._logService.getTodaysAttendance().subscribe((response:any) => {
 			console.log('getTodaysAttendance response in logs '  , response);
-			this.currentMonthLogs = this.properFormatDate(response.data);
+			// this.currentMonthLogs = this.properFormatDate(response.data);
+			// this.logs = this.properFormatDate(response.data);
+			this.logs = response.data;
 
 			
 			this.searchData = response.data;
@@ -183,9 +179,10 @@ export class LogsSummaryComponent implements OnInit {
 	}
 	searchByName(items){
 		var field1 = (<HTMLInputElement>document.getElementById("searchName")).value;
-		console.log("field 1 =====> " , field1 , "current month logs =====>" , this.currentMonthLogs);
+		console.log("field 1 =====> " , field1 , "current month logs =====>" , this.logs);
 				
-		this.currentMonthLogs = this._filterPipe.transform(items, field1);
+		// this.currentMonthLogs = this._filterPipe.transform(items, field1);
+		this.logs = this._filterPipe.transform(items, field1);
 		console.log("Items  =====> " , items );
 	}
 	resetForm(){
@@ -194,7 +191,7 @@ export class LogsSummaryComponent implements OnInit {
 		(<HTMLInputElement>document.getElementById("reportrange")).value = "";
 	}
 	getRangeDate(start, end){
-		if(this.currentMonthLogs){
+		console.log("RANGE FUNCTION CALLED");
 		console.log(" date " ,new Date(start._d).toISOString() , new Date(end._d).toISOString());
 		var increseStartDate:any = moment(start._d).add(1 , 'days');
 		var body = {
@@ -202,21 +199,23 @@ export class LogsSummaryComponent implements OnInit {
 			startDate : new Date(increseStartDate).toISOString(),
 			endDate : new Date(end._d).toISOString()
 		}
-			this.search = true;
-			this._logService.getLogsReportById(body).subscribe((res:any)=>{
-				console.log("response of getLogsReportById" , res);
-				if(res.foundLogs){ 
-					this.logs = this.properFormatDate(res.foundLogs);
-					this.totalHoursToWork = res.TotalHoursToComplete;
-					this.totalHoursWorked = res.TotalHoursCompleted;
-					console.log("total hours attednent ====>" , this.totalHoursToWork);
-					console.log("total hours to attendnace====>" , this.totalHoursWorked);
-				}
-				
-			} , (err)=>{
-				console.log("err of getLogsReportById" , err);
-			});
-		}
+		this.search = true;
+		this._logService.getLogsReportById(body).subscribe((res:any)=>{
+			console.log("response of getLogsReportById" , res);
+			if(res.foundLogs){ 
+				this.logs = res.foundLogs;
+				// this.logs = this.properFormatDate(res.foundLogs);
+				this.totalHoursToWork = res.TotalHoursToComplete;
+				this.totalHoursWorked = res.TotalHoursCompleted;
+				console.log("total hours attednent ====>" , this.totalHoursToWork);
+				console.log("total hours to attendnace====>" , this.totalHoursWorked);
+			}else{
+				this.logs = res
+			}
+			
+		} , (err)=>{
+			console.log("err of getLogsReportById" , err);
+		});
 	}
 	calculateTotalDuration(array , resultHours, start , end){
 		var workingHours = 0;
@@ -263,11 +262,6 @@ export class LogsSummaryComponent implements OnInit {
 	// 	var field1 = (<HTMLInputElement>document.getElementById("nameSearch")).value;
 	// 	this.filteredData = this._filterPipe.transform(items, field1);
 	// }
-	properFormatDate(data){
-		return data = data.filter((obj)=>{
-			return obj.date = moment(obj.date).utc().format("DD/MM/YYYY");
-		});
-	}
 	branchSelector(branchName){
 		console.log(branchName);
 		localStorage.setItem('branchSelected' , branchName);
