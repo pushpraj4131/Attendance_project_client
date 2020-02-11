@@ -132,10 +132,12 @@ export class UserReportComponent implements OnInit {
 							this.foundRecordUser = dev;
 						}
 					});
+					this.logs = [];
 					this.totalHoursWorked = 0;
 					this.totalHoursToWork = 0;
 				}
 				else{
+					this.logs = [];
 					this.totalHoursWorked = 0;
 					this.totalHoursToWork = 0;
 					this.allEmployeeSearch = true;	

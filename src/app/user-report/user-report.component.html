@@ -123,7 +123,7 @@
 									<h3 class="mb-0" *ngIf="searchRecordDate">{{searchRecordDate}}'s record</h3> 
 								</div>
 								<div class="col mt-2">
-									<span *ngIf="!logs" class="text-danger text-uppercase"> No record found  </span>
+									<span *ngIf="logs.length == 0" class="text-danger text-uppercase"> No record found  </span>
 								</div>
 							</div>
 						</div>
