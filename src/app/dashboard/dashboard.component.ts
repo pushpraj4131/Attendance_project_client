@@ -69,7 +69,10 @@ export class DashboardComponent implements OnInit {
 			this.router.navigate(['/login']);
 		}
 		//admin functions
-		this.getTodaysAttendance();
+		if(this.userInfo.userRole == 'admin'){
+			this.getTodaysAttendance();
+		
+	}
 		//employees functions
 		if(this.userInfo.userRole != 'admin'){
 			this.getLastFiveDaysAttendance();
@@ -148,12 +151,16 @@ export class DashboardComponent implements OnInit {
 			var flag = 0;
 			this._change.detectChanges();
 			if(this.fiveDaysLogs){
+				console.log("IN IFFFFFFFFFFFFF =============?");
 				this.fiveDaysLogs.filter((data)=>{
+						console.log("IN IFFFFFFFFFFFFF =============?" , data.date == this.filledAttendanceLog[0].date);
 					if(data.date == this.filledAttendanceLog[0].date){
 						console.log(data.date , this.filledAttendanceLog[0].date)
 						flag = 1;
 					}
 				});
+				console.log("IN IFFFFFFFFFFFFF =============?", this.fiveDaysLogs);
+
 			}
 			if(flag == 0 && this.fiveDaysLogs){
 				this.fiveDaysLogs.unshift(this.filledAttendanceLog[0]);

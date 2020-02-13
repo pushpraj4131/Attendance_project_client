@@ -1,4 +1,4 @@
-import { Component, OnInit , ViewChild , ViewEncapsulation } from '@angular/core';
+import { Component, OnInit , ViewChild , ViewEncapsulation, ChangeDetectorRef } from '@angular/core';
 import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
 import { FormGroup , FormControl, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -42,7 +42,8 @@ export class UserReportComponent implements OnInit {
 		public _logsService: LogsService,
 		public _userService: UserService,
 		private router: Router,
-		public _loginService: LoginService 
+		public _loginService: LoginService,
+		public _change: ChangeDetectorRef 
 		){
 		this.reportForm = new FormGroup({
 			id: new FormControl(''),
@@ -132,15 +133,22 @@ export class UserReportComponent implements OnInit {
 							this.foundRecordUser = dev;
 						}
 					});
+
+					this.tableHeader = [];
 					this.logs = [];
+					this.tableData = [];
 					this.totalHoursWorked = 0;
 					this.totalHoursToWork = 0;
+					this._change.detectChanges();
 				}
 				else{
 					this.logs = [];
+					this.tableHeader = [];
 					this.totalHoursWorked = 0;
 					this.totalHoursToWork = 0;
+					this.tableData = [];
 					this.allEmployeeSearch = true;	
+					this._change.detectChanges();
 				}
 			}
 			else if(!res.foundLogs){
@@ -161,6 +169,13 @@ export class UserReportComponent implements OnInit {
 				}
 				console.log("table header =++>",this.tableHeader);
 				console.log("table daat =+++>",this.tableData);
+					
+				$(document).ready(()=>{
+					setTimeout(() => {
+						console.log($('#allEmployeeTable').html()/*.split('--><!----><!--bindings={}--><!--bindings={"ng-reflect-ng-if": "true"}-->"')*/);
+					}, 1000);
+					console.log("HELLOO");
+				});
 			}else{
 				console.log("IN ELSE");
 				this.allEmployeeSearch = false;
@@ -302,6 +317,7 @@ export class UserReportComponent implements OnInit {
 		console.log("Modified res1s =+++++++++++++." , res1);
 		this.allLogs = res1;
 		console.log("this is all logs inside the function " , this.allLogs);
+
 		return res1;
 	}
 	getColor(value){
@@ -350,6 +366,7 @@ export class UserReportComponent implements OnInit {
 		}
 	}
 	getColorSingleEmployee(value){
+		console.log("VALUE +++++++++++++>", value);
 		if(typeof value != 'string'){
 			if(value < 30600){
 				return  'red'
