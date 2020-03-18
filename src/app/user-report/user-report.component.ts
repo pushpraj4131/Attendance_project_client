@@ -8,6 +8,8 @@ declare var $;
 import { UserService } from '../services/user.service';
 import { LogsService } from '../services/logs.service';
 import { LoginService } from '../services/login.service';
+import { NgxUiLoaderService } from 'ngx-ui-loader';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
 	selector: 'app-user-report',
@@ -43,7 +45,9 @@ export class UserReportComponent implements OnInit {
 		public _userService: UserService,
 		private router: Router,
 		public _loginService: LoginService,
-		public _change: ChangeDetectorRef 
+		public _change: ChangeDetectorRef,
+		private http: HttpClient,
+		private ngxLoader: NgxUiLoaderService 
 		){
 		this.reportForm = new FormGroup({
 			id: new FormControl(''),
@@ -74,6 +78,13 @@ export class UserReportComponent implements OnInit {
 
 		
 		this.bsConfig = Object.assign({}, { containerClass: 'theme-green custom' });
+
+		//ngx-ui-loader
+		this.ngxLoader.start();
+		this.http.get(`https://api.npmjs.org/downloads/range/last-month/ngx-ui-loader`).subscribe((res: any) => {
+			console.log(res);
+			this.ngxLoader.stop();
+		});
 	}
 	get f() { return this.reportForm.controls; }
 	getAllUsers(){
@@ -105,6 +116,14 @@ export class UserReportComponent implements OnInit {
 	tableHeader = [];
 	tableData = [];
 	getReport(value){
+
+		//ngx-ui-loader
+		this.ngxLoader.start();
+		this.http.get(`https://api.npmjs.org/downloads/range/last-month/ngx-ui-loader`).subscribe((res: any) => {
+			console.log(res);
+			this.ngxLoader.stop();
+		});
+		
 		this.fullTimeWorked = 0;
 		this.lessTimeWorked = 0;
 		this.monthDisplay = moment(value.date).format('MMMM');

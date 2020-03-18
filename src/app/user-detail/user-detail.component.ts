@@ -6,6 +6,8 @@ import * as moment from 'moment';
 import { UserService } from '../services/user.service';
 import { LogsService }  from '../services/logs.service';
 import { LoginService } from '../services/login.service';
+import { NgxUiLoaderService } from 'ngx-ui-loader';
+import { HttpClient } from '@angular/common/http';
 declare var $:any;
 
 @Component({
@@ -21,6 +23,7 @@ export class UserDetailComponent implements OnInit {
 	isDisable:boolean =false;
 	userInfo : any;
 	currentUserDetail : any;
+	totalHoursToWorkField: any;
 	fiveDaysLogs: any = [];
 	p: number = 1;
 	data = {
@@ -40,7 +43,9 @@ export class UserDetailComponent implements OnInit {
 		private router: Router,
 		private _userService: UserService,
 		private _logService: LogsService,
-		private _loginService: LoginService
+		private _loginService: LoginService,
+		private http: HttpClient,
+		private ngxLoader: NgxUiLoaderService
 	){
 		
 		this.userInfo  = JSON.parse(localStorage.getItem("currentUser"));
@@ -85,8 +90,20 @@ export class UserDetailComponent implements OnInit {
 		
 		this.getUserById();
 		// this.getInitialRecord();
+
+		//ngx-ui-loader
+		this.ngxLoader.start();
+		this.http.get(`https://api.npmjs.org/downloads/range/last-month/ngx-ui-loader`).subscribe((res: any) => {
+			console.log(res);
+			this.ngxLoader.stop();
+		});
 	}
 	
+	editProfile(){
+		this.router.navigate(['edit-profile', this.userId]);
+	}
+
+
 	getUserById(){
 		this._userService.getUserById(this.userId).subscribe((res) => {
 			console.log("resposne of singleUser" , res); 
@@ -95,6 +112,16 @@ export class UserDetailComponent implements OnInit {
 			console.log("error of singleUser" , err); 
 		});
 	}
+	
+	deleteUser(i){
+		this._userService.adminDelEmployee(this.userId).subscribe((res) => {
+			console.log("the deleteUser response is:", res);
+			this.router.navigate(['/all-users']);
+		}, (err) => {
+			console.log("the delete user err :", err);
+		});
+	}
+
 	// toDate(value){
 	// 	console.log(value , this.searchForm.value);
 	// 	this.isDisable =false;
@@ -133,7 +160,12 @@ export class UserDetailComponent implements OnInit {
 	}
 	getRangeDate(start, end){
 		console.log(start._d, end._d , this.fiveDaysLogs)
-		
+			//ngx-ui-loader
+		this.ngxLoader.start();
+		this.http.get(`https://api.npmjs.org/downloads/range/last-month/ngx-ui-loader`).subscribe((res: any) => {
+			console.log(res);
+			this.ngxLoader.stop();
+		});	
 			console.log(" date " ,new Date(start._d).toISOString() , new Date(end._d).toISOString() ,/* "=>",new Date(moment(start._d).add(1 , 'days')).toISOString()*/);
 			var increseStartDate:any = moment(start._d).add(1 , 'days');
 			 // new Date(moment(start._d).add(1 , 'days')).toISOString()
@@ -153,8 +185,7 @@ export class UserDetailComponent implements OnInit {
 				}
 				else{
 					this.logs = res;
-					this.totalHoursToWork = "No Log Found"; 
-					
+					this.totalHoursToWork = "No Log Found";
 				}
 			
 				// this.calculateTotalDuration(this.logs , resultHours , start._d , end._d);

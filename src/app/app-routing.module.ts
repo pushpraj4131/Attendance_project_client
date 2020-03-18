@@ -9,6 +9,8 @@ import { LoginComponent } from './login/login.component';
 import { AllUsersComponent } from './all-users/all-users.component';
 import { UserDetailComponent } from './user-detail/user-detail.component';
 import { UserReportComponent } from './user-report/user-report.component';
+import { EditProfileComponent } from './edit-profile/edit-profile.component';
+import { AddUserComponent } from './add-user/add-user.component';
 import { AppComponent } from './app.component';
 import { AuthGuard } from './guards/auth.guard';
 // import { loginGaurd } from './guards/auth.guard';
@@ -26,7 +28,7 @@ const routes: Routes = [
 		component : LogsSummaryComponent
 	},
 	{
-		path : 'user-profile',
+		path : 'user-profile/:id',
 		component : UserProfileComponent
 	},
 	{
@@ -46,6 +48,14 @@ const routes: Routes = [
 		path : 'user-report',
 		component : UserReportComponent,
 		canActivate: [AuthGuard]
+	},
+	{
+		path : 'edit-profile/:id',
+		component : EditProfileComponent,
+	},
+	{
+		path : 'add-user',
+		component : AddUserComponent,
 	}
 ];
 

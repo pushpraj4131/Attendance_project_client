@@ -1,0 +1,73 @@
+import { __decorate } from "tslib";
+import { NgModule } from '@angular/core';
+import { RouterModule } from '@angular/router';
+//import component
+import { UserProfileComponent } from './user-profile/user-profile.component';
+import { LogsSummaryComponent } from './logs-summary/logs-summary.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
+import { LoginComponent } from './login/login.component';
+import { AllUsersComponent } from './all-users/all-users.component';
+import { UserDetailComponent } from './user-detail/user-detail.component';
+import { UserReportComponent } from './user-report/user-report.component';
+import { EditProfileComponent } from './edit-profile/edit-profile.component';
+import { AddUserComponent } from './add-user/add-user.component';
+import { AppComponent } from './app.component';
+import { AuthGuard } from './guards/auth.guard';
+// import { loginGaurd } from './guards/auth.guard';
+var routes = [
+    {
+        path: "app-component",
+        component: AppComponent
+    },
+    {
+        path: "",
+        component: DashboardComponent
+    },
+    {
+        path: 'logs-summary',
+        component: LogsSummaryComponent
+    },
+    {
+        path: 'user-profile/:id',
+        component: UserProfileComponent
+    },
+    {
+        path: 'login',
+        component: LoginComponent
+        // canActivate: [loginGaurd]
+    },
+    {
+        path: 'all-users',
+        component: AllUsersComponent
+    },
+    {
+        path: 'all-users/user-detail/:id',
+        component: UserDetailComponent
+    },
+    {
+        path: 'user-report',
+        component: UserReportComponent,
+        canActivate: [AuthGuard]
+    },
+    {
+        path: 'edit-profile/:id',
+        component: EditProfileComponent,
+    },
+    {
+        path: 'add-user',
+        component: AddUserComponent,
+    }
+];
+var AppRoutingModule = /** @class */ (function () {
+    function AppRoutingModule() {
+    }
+    AppRoutingModule = __decorate([
+        NgModule({
+            imports: [RouterModule.forRoot(routes)],
+            exports: [RouterModule]
+        })
+    ], AppRoutingModule);
+    return AppRoutingModule;
+}());
+export { AppRoutingModule };
+//# sourceMappingURL=app-routing.module.js.map

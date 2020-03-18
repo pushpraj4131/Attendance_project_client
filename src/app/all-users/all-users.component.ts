@@ -18,11 +18,11 @@ export class AllUsersComponent implements OnInit {
 	fromSearchedItems : any;
 	modelValue: any;
 	constructor(
-			public _userService: UserService,
-			public _filterPipe: FilterPipe,
-			private route: ActivatedRoute,
-			private router: Router,
-			private _loginService: LoginService
+		public _userService: UserService,
+		public _filterPipe: FilterPipe,
+		private route: ActivatedRoute,
+		private router: Router,
+		private _loginService: LoginService
 		) { }
 
 	ngOnInit() {
@@ -36,11 +36,12 @@ export class AllUsersComponent implements OnInit {
 				$("#ahemdabad").addClass("active");
 				$("#rajkot").removeClass("active");
 			}
-
 		});
+
 		this.userInfo = JSON.parse(localStorage.getItem("currentUser"));
 		this.getAllUsers();
 	}
+
 	getAllUsers(){
 		this._userService.getAllUsers().subscribe((res: any)=>{
 			this.allUsers = res;
@@ -52,19 +53,23 @@ export class AllUsersComponent implements OnInit {
 			console.log("err of getAllUsers in all user component " , err);
 		});
 	}
+
 	searchByName(items){
 		var field1 = (<HTMLInputElement>document.getElementById("nameSearch")).value;
 		this.allUsers = this._filterPipe.transform(items, field1);
 	}
+
 	getUserDetail(userId){
 		console.log("user id => " ,userId);
 		this.router.navigate(['all-users/user-detail/' + userId]);
 	}
+
 	logout() {
 		console.log("logiut ccalled");
 		this._loginService.logout();
 		this.router.navigate(['login']);
 	}
+
 	branchSelector(branchName){
 		console.log(branchName);
 		localStorage.setItem('branchSelected' , branchName);

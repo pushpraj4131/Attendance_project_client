@@ -1,4 +1,4 @@
-
+<div ngxUiLoaderBlurred>
 <nav class="navbar navbar-vertical fixed-left navbar-expand-md navbar-light bg-white" id="sidenav-main">
     <div class="container-fluid">
       <!-- Toggler -->
@@ -53,17 +53,22 @@
             </a>
           </li>
           <li class="nav-item" *ngIf="userInfo">
-            <a class="nav-link" *ngIf=" !userInfo.userRole || userInfo.userRole == 'employee'">
-              <i class="ni ni-single-02 text-yellow"></i> User profile
+            <a class="nav-link" *ngIf=" userInfo.userRole == 'admin'" routerLink="user-report">
+              <i class="ni ni-single-02 text-yellow"></i> Employees Report
+            </a>
+          </li>
+          <li class="nav-item" *ngIf="userInfo">
+            <a class="nav-link" *ngIf=" userInfo.userRole == 'admin'" routerLink="add-user">
+              <i class="fas fa-user-friends text-blue"></i> Add Employees
+            </a>
+          </li>
+          <li class="nav-item" *ngIf="userInfo">
+            <a class="nav-link" (click)="userProfile()">
+              <i class='fas fa-id-card text-green'></i> My Profile
             </a>
             <!-- <a class="nav-link" *ngIf=" userInfo.userRole == 'admin'" routerLink="all-users">
               <i class="ni ni-single-02 text-yellow"></i> All Users 
             </a> -->
-          </li>
-          <li class="nav-item" *ngIf="userInfo">
-            <a class="nav-link" *ngIf=" userInfo.userRole == 'admin'" routerLink="user-report">
-              <i class="ni ni-single-02 text-yellow"></i> Employees Report
-            </a>
           </li>
         </ul>
         <!-- Divider -->
@@ -76,5 +81,6 @@
   
   <!--   Core   -->
   
-
 <router-outlet></router-outlet>
+</div>
+<ngx-ui-loader></ngx-ui-loader> 

@@ -1,0 +1,18 @@
+.main-content {
+    position: relative;
+    width: calc( 100% - 250px);
+    float: right;
+}
+.emp-profile{
+    padding: 3%;
+    position: relative;
+    border-radius: 0.5rem;
+    background: #fff;
+}
+.user_profile {
+    color: #8898aa;
+    background: #f6f9fc;
+}
+.pass_text{
+    font-size: 13px;
+}

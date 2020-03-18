@@ -1,0 +1,137 @@
+<div class="main-content">
+	<!-- Navbar -->
+	<nav class="navbar navbar-top navbar-expand-md navbar-dark" id="navbar-main">
+		<div class="container-fluid">
+			<!-- Brand -->
+			<a class="h4 mb-0 text-white text-uppercase d-none d-lg-inline-block" href="./index.html">Add Employees</a>
+			<!-- <ul *ngIf="userInfo.userRole && userInfo.userRole == 'admin'" class="nav nav-pills nav-fill align-items-end" id="tabs-text" role="tablist">
+				<li class="nav-item">
+					<a class="nav-link mb-sm-3 mb-md-0 "  id="rajkot" data-toggle="tab" href="#tabs-text-1" role="tab" aria-controls="tabs-text-1" aria-selected="true" (click)="branchSelector('rajkot')">Rajkot</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link mb-sm-3 mb-md-0" id="ahemdabad" data-toggle="tab" href="#tabs-text-2" role="tab" aria-controls="tabs-text-2" aria-selected="false" (click)="branchSelector('ahemdabad')">Ahemdabad</a>
+				</li>
+			</ul> -->
+			<ul class="navbar-nav align-items-center d-none d-md-flex">
+				<li class="nav-item dropdown">
+					<a class="nav-link pr-0" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+						<div class="media align-items-center">
+							<div class="media-body ml-2 ">
+								<span class="mb-0 text-sm  font-weight-bold text-white" *ngIf="userInfo">{{userInfo.name}}</span>
+							</div>
+						</div>
+					</a>
+					<div class="dropdown-menu dropdown-menu-arrow dropdown-menu-right">
+						<div class=" dropdown-header noti-title">
+							<h6 class="text-overflow m-0">Welcome!</h6>
+						</div>
+						<a  class="dropdown-item" [routerLink]="['/user-profile', this.userInfo._id]">
+							<i class="ni ni-single-02"></i>
+							<span >My profile</span>
+						</a>
+						<div class="dropdown-divider"></div>
+						<a (click)="logout()" class="dropdown-item" style="cursor: pointer;">
+							<i class="ni ni-user-run"></i>
+							<span >Logout</span>
+						</a>
+					</div>
+				</li>
+			</ul>
+		</div>
+	</nav>
+
+	<div class="header bg-gradient-primary pb-8 pt-5 pt-md-8">
+		<div class="container-fluid">
+			<div class="header-body">
+			</div>
+		</div>
+	</div>
+	<div class="container-fluid mt--5">
+		<div class="emp-profile">
+			<div class="row mt--3">
+				<div class="col-xl-10">
+					<div class="profile-head mb-3">
+						<h3>Add Employees</h3>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xl-12">
+					<form [formGroup]="myForm">
+						<div class="row">
+							<div class="col-xl-6">
+								<div class="form-group">
+									<label>E-mail : </label>
+									<div class="input-group input-group-merge input-group-alternative">
+										<input class="form-control" formControlName="email" placeholder="E-mail" type="text">
+									</div>
+								</div>
+							</div>
+							<div class="col-xl-6">
+								<div class="form-group">
+									<label>Name : </label>
+									<div class="input-group input-group-merge input-group-alternative">
+										<input class="form-control" formControlName="name" placeholder="Name" type="text">
+									</div>
+								</div>
+							</div>
+							<div class="col-xl-6">
+								<div class="form-group">
+									<label>Password : </label>
+									<div class="input-group input-group-merge input-group-alternative">
+										<input class="form-control" formControlName="password" placeholder="password" [type]="password">
+										<button class="btn btn-icon btn-default"  (click)="onClick()" >
+											<i class="fa fa-eye" aria-hidden="true" *ngIf="show"></i>
+											<i class="fa fa-eye-slash" aria-hidden="true" *ngIf="!show"></i> 
+										</button>
+									</div>
+								</div>
+							</div>
+							<div class="col-xl-6">
+								<div class="form-group">
+									<label>Designation : </label>
+									<div class="input-group input-group-merge input-group-alternative">
+										<input class="form-control" formControlName="designation" placeholder="Designation" type="text">
+									</div>
+								</div>
+							</div>
+							<div class="col-xl-6">
+								<div class="form-group">
+									<label class="userRole">User Role : </label>
+									<select formControlName="userRole" class="form-control" (change)="getType($event)">
+										<option selected>admin</option>
+										<option>employee</option>
+									</select>
+								</div>
+							</div>
+							<div class="col-xl-6">
+								<div class="form-group">
+									<label class="userRole">Branch : </label>
+									<select formControlName="branch" class="form-control" (change)="getBranch($event)">
+										<option >rajkot</option>
+										<option>ahemdabad</option>
+									</select>
+								</div>
+							</div>
+						</div>
+						<div class="text-center">
+							<button type="button" (click)="addUser(myForm.value)" class="btn btn-primary my-4 mb--1">Add User</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+
+		<!-- Footer -->
+		<footer class="footer">
+			<div class="row align-items-center justify-content-xl-between">
+				<div class="col-xl-6">
+					<div class="copyright text-center text-xl-left text-muted">
+						&copy; 2019 <a href="https://raoinformationtechnology.com/" class="font-weight-bold ml-1" target="_blank">Rao Infotech</a>
+					</div>
+				</div>
+
+			</div>
+		</footer>	
+	</div>
+</div>

@@ -45,3 +45,16 @@
 .nameClick:hover{
   color: red;
 }
+.absentUser{
+  cursor: pointer;
+}
+
+.nav-pills .nav-link.active, .nav-pills .show>.nav-link {
+    color: #5e72e4;
+    background-color: white;
+}
+
+.nav-pills .nav-link {
+    color: #fff;
+    background-color: #5e72e4;
+}

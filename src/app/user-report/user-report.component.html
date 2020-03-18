@@ -1,80 +1,82 @@
-<div class="main-content" >
-	<nav class="navbar navbar-top navbar-expand-md navbar-dark" id="navbar-main">
-		<div class="container-fluid">
-			<a class="h4 mb-0 text-white text-uppercase d-none d-lg-inline-block">User Details</a>
-			<ul *ngIf="userInfo.userRole == 'admin'" class="nav nav-pills nav-fill flex-column flex-sm-row" id="tabs-text" role="tablist">
-				<li class="nav-item">
-					<a class="nav-link mb-sm-3 mb-md-0 "  id="rajkot" data-toggle="tab" href="#tabs-text-1" role="tab" aria-controls="tabs-text-1" aria-selected="true" (click)="branchSelector('rajkot')">Rajkot</a>
-				</li>
-				<li class="nav-item">
-					<a class="nav-link mb-sm-3 mb-md-0" id="ahemdabad" data-toggle="tab" href="#tabs-text-2" role="tab" aria-controls="tabs-text-2" aria-selected="false" (click)="branchSelector('ahemdabad')">Ahemdabad</a>
-				</li>
-			</ul>
-			<ul class="navbar-nav align-items-center d-none d-md-flex">
-				<li class="nav-item dropdown">
-					<a class="nav-link pr-0" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-						<div class="media align-items-center">
-							<div class="media-body ml-2 ">
-								<span class="mb-0 text-sm  font-weight-bold" *ngIf="userInfo" >{{userInfo.name}}</span>
+<div ngxUiLoaderBlurred>
+
+	<div class="main-content" >
+		<nav class="navbar navbar-top navbar-expand-md navbar-dark" id="navbar-main">
+			<div class="container-fluid">
+				<a class="h4 mb-0 text-white text-uppercase d-none d-lg-inline-block">User Details</a>
+				<ul *ngIf="userInfo.userRole == 'admin'" class="nav nav-pills nav-fill flex-column flex-sm-row" id="tabs-text" role="tablist">
+					<li class="nav-item">
+						<a class="nav-link mb-sm-3 mb-md-0 "  id="rajkot" data-toggle="tab" href="#tabs-text-1" role="tab" aria-controls="tabs-text-1" aria-selected="true" (click)="branchSelector('rajkot')">Rajkot</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link mb-sm-3 mb-md-0" id="ahemdabad" data-toggle="tab" href="#tabs-text-2" role="tab" aria-controls="tabs-text-2" aria-selected="false" (click)="branchSelector('ahemdabad')">Ahemdabad</a>
+					</li>
+				</ul>
+				<ul class="navbar-nav align-items-center d-none d-md-flex">
+					<li class="nav-item dropdown">
+						<a class="nav-link pr-0" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+							<div class="media align-items-center">
+								<div class="media-body ml-2 ">
+									<span class="mb-0 text-sm  font-weight-bold" *ngIf="userInfo" >{{userInfo.name}}</span>
+								</div>
 							</div>
-						</div>
-					</a>
-					<div class="dropdown-menu dropdown-menu-arrow dropdown-menu-right">
-						<div class=" dropdown-header noti-title">
-							<h6 class="text-overflow m-0">Welcome!</h6>
-						</div>
-						<a  class="dropdown-item">
-							<i class="ni ni-single-02"></i>
-							<span >My profile</span>
 						</a>
-						<div class="dropdown-divider"></div>
-						<a (click)="logout()" class="dropdown-item" style="cursor: pointer;">
-							<i class="ni ni-user-run"></i>
-							<span >Logout</span>
-						</a>
-					</div>
-				</li>
-			</ul>
-		</div>
-	</nav>
-	<div class="header bg-gradient-primary pb-8 pt-5 pt-md-8">
-		<div class="container-fluid">
-			<div class="header-body">
+						<div class="dropdown-menu dropdown-menu-arrow dropdown-menu-right">
+							<div class=" dropdown-header noti-title">
+								<h6 class="text-overflow m-0">Welcome!</h6>
+							</div>
+							<a  class="dropdown-item" [routerLink]="['/user-profile', this.userInfo._id]">
+								<i class="ni ni-single-02"></i>
+								<span >My profile</span>
+							</a>
+							<div class="dropdown-divider"></div>
+							<a (click)="logout()" class="dropdown-item" style="cursor: pointer;">
+								<i class="ni ni-user-run"></i>
+								<span >Logout</span>
+							</a>
+						</div>
+					</li>
+				</ul>
+			</div>
+		</nav>
+		<div class="header bg-gradient-primary pb-8 pt-5 pt-md-8">
+			<div class="container-fluid">
 				<div class="header-body">
-					<div class="row m-auto">
-						<div *ngIf="userInfo.userRole && userInfo.userRole == 'admin'" class="col-xl-12 col-lg-12">
-							<form [formGroup]='reportForm'>
-								<div class="card card-stats mb-4 mb-xl-0">
-									<div class="card-body">
-										<div class="row">
-											<div class="col-6">
-												<h4 style="color: #181123; margin-top: 10px; margin-left: 0px;">Select Employee</h4>
-												<ng-select formControlName="id" placeholder="Select Developers" [items]="developers" [multiple]="false" bindLabel="name" bindValue="_id" [closeOnSelect]="false">
-													<ng-template ng-label-tmp let-item="item" let-clear="clear" >
-														<span class="ng-value-label">{{item.name}}</span>
-														<span class="ng-value-icon right" (click)="clear(item)" aria-hidden="true"> × </span>
-													</ng-template>
-													<ng-template ng-option-tmp let-item="item">
-														{{item.name}}
-													</ng-template>
-												</ng-select>
-											</div>
-											<div class="col-6">
-												<h4 style="color: #181123; margin-top: 10px; margin-left: 0px;">Select month</h4>
-												<input type="text" id="Date1" formControlName="date" [(ngModel)]="modelDate" autocomplete="off" 
-												class="form-control" bsDatepicker [bsConfig]="{dateInputFormat: 'MM/YYYY'}" (onShown)="onOpenCalendar($event)">
-												<button style="float: right;margin-top: 20px;"  type="submit" class="btn btn-primary" [disabled]= "isDisable || reportForm.invalid" (click)="getReport(reportForm.value)">Get Report</button>
+					<div class="header-body">
+						<div class="row m-auto">
+							<div *ngIf="userInfo.userRole && userInfo.userRole == 'admin'" class="col-xl-12 col-lg-12">
+								<form [formGroup]='reportForm'>
+									<div class="card card-stats mb-4 mb-xl-0">
+										<div class="card-body">
+											<div class="row">
+												<div class="col-6">
+													<h4 style="color: #181123; margin-top: 10px; margin-left: 0px;">Select Employee</h4>
+													<ng-select formControlName="id" placeholder="Select Developers" [items]="developers" [multiple]="false" bindLabel="name" bindValue="_id" [closeOnSelect]="false">
+														<ng-template ng-label-tmp let-item="item" let-clear="clear" >
+															<span class="ng-value-label">{{item.name}}</span>
+															<span class="ng-value-icon right" (click)="clear(item)" aria-hidden="true"> × </span>
+														</ng-template>
+														<ng-template ng-option-tmp let-item="item">
+															{{item.name}}
+														</ng-template>
+													</ng-select>
+												</div>
+												<div class="col-6">
+													<h4 style="color: #181123; margin-top: 10px; margin-left: 0px;">Select month</h4>
+													<input type="text" id="Date1" formControlName="date" [(ngModel)]="modelDate" autocomplete="off" 
+													class="form-control" bsDatepicker [bsConfig]="{dateInputFormat: 'MM/YYYY'}" (onShown)="onOpenCalendar($event)">
+													<button style="float: right;margin-top: 20px;"  type="submit" class="btn btn-primary" [disabled]= "isDisable || reportForm.invalid" (click)="getReport(reportForm.value)">Get Report</button>
+												</div>
 											</div>
 										</div>
 									</div>
-								</div>
-							</form>
+								</form>
+							</div>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
-	</div>
 		<div class="container-fluid mt--7" >
 			<div class="row m-auto" *ngIf="(searchRecordDate)&&(foundRecordUser != null)" >
 				<div class="col-xl-12 order-xl-2 mb-5 mb-xl-0">
@@ -178,36 +180,36 @@
 							</div>
 						</div>
 						<div class="scrollbar">
-						<div class="table-responsive" >
-							<table class="table align-items-center table-flush">
-								<thead class="thead-light" >
-									<tr>
-										<th class="empty_th" scope="col"></th>
-										<th  scope="col" *ngFor="let data of developers">{{data.name}}</th>
-									</tr>
-								</thead>
-								<tbody class="font-weight-bold text-center" id="allEmployeeTable">
-									<tr  *ngFor="let Datedata of tableHeader | paginate:{itemsPerPage: 10, currentPage:p}; let i = index">
-										<th class="zui-sticky-col" scope="row">
-											{{ Datedata }}
-										</th>
-										<ng-container  *ngFor="let logsData of tableData[10 * (p - 1) + i]  let j = index">
-											<td  *ngIf="logsData.user" style="border: 1px solid black" class="tdHover" [ngStyle]="{'color':getColor(logsData.seconds)}"  (click)="openModel(Datedata , j)">
-												{{logsData.diffrence !== null ? logsData.diffrence : 'AB' }}
-											</td>
-											<td align="left" colspan="20" *ngIf="!logsData.user" style="border: 1px solid black; color: black" [ngStyle]="{'background-color':getBackGroundColor(logsData)}">
-												{{logsData}}
-											</td>
-										</ng-container>	
-									</tr>
-								</tbody>
-							</table>
-						</div>
-						<div class="card-footer py-4 ">
-							<pagination-controls   (pageChange)="p=$event"></pagination-controls>
+							<div class="table-responsive" >
+								<table class="table align-items-center table-flush">
+									<thead class="thead-light" >
+										<tr>
+											<th class="empty_th" scope="col"></th>
+											<th  scope="col" *ngFor="let data of developers">{{data.name}}</th>
+										</tr>
+									</thead>
+									<tbody class="font-weight-bold text-center" id="allEmployeeTable">
+										<tr  *ngFor="let Datedata of tableHeader | paginate:{itemsPerPage: 10, currentPage:p}; let i = index">
+											<th class="zui-sticky-col" scope="row">
+												{{ Datedata }}
+											</th>
+											<ng-container  *ngFor="let logsData of tableData[10 * (p - 1) + i]  let j = index">
+												<td  *ngIf="logsData.user" style="border: 1px solid black" class="tdHover" [ngStyle]="{'color':getColor(logsData.seconds)}"  (click)="openModel(Datedata , j)">
+													{{logsData.diffrence !== null ? logsData.diffrence : 'AB' }}
+												</td>
+												<td align="left" colspan="20" *ngIf="!logsData.user" style="border: 1px solid black; color: black" [ngStyle]="{'background-color':getBackGroundColor(logsData)}">
+													{{logsData}}
+												</td>
+											</ng-container>	
+										</tr>
+									</tbody>
+								</table>
+							</div>
+							<div class="card-footer py-4 ">
+								<pagination-controls   (pageChange)="p=$event"></pagination-controls>
+							</div>
 						</div>
 					</div>
-				</div>
 				</div>
 			</div>
 
@@ -332,11 +334,11 @@
 					</div>
 
 				</div>
-	<div class="modal-footer">
+				<div class="modal-footer">
 					<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
 				</div>
 
 			</div>
 		</div>
 	</div>
-
+</div>

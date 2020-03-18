@@ -7,6 +7,9 @@ import { FilterPipe } from '../filter.pipe';
 import { EventEmitter } from '@angular/core';
 import * as moment from 'moment';
 import Swal from 'sweetalert2';
+import { NgxUiLoaderService } from 'ngx-ui-loader';
+import { HttpClient } from '@angular/common/http';
+import { UserService } from '../services/user.service';
 // RTCPeerConnection' does not exist on type 'Window'
 declare var $;
 interface window {
@@ -33,7 +36,11 @@ export class DashboardComponent implements OnInit {
 	filteredData = [];
 	totalUsers : any ;
 	presentCount : any;
+	allEmployees : any = [];
 	p: number = 1;
+	absentEmp:any = [];
+	totalEmployees:any;
+
 	loginFlag
 	@Output() notifyParent: EventEmitter<any> = new EventEmitter();
 	constructor(public _logService: LogsService, 
@@ -41,13 +48,18 @@ export class DashboardComponent implements OnInit {
 		private router: Router, 
 		public _loginService: LoginService, 
 		public _filterPipe: FilterPipe,
-		public _change: ChangeDetectorRef
+		public _change: ChangeDetectorRef,
+		private http: HttpClient,
+		private ngxLoader: NgxUiLoaderService,
+		private _userService: UserService,
 		) { }
 
 	ngOnInit() {
 		var branchName = localStorage.getItem('branchSelected');
 		// localStorage.setItem('branchSelected' , 'ahemdabad');
 		// console.log(branchName);
+		// this.getAllUsers();
+
 		this.checkIp();
 		var hello ;
 		var self = this;
@@ -71,14 +83,21 @@ export class DashboardComponent implements OnInit {
 		//admin functions
 		if(this.userInfo.userRole == 'admin'){
 			this.getTodaysAttendance();
-		
-	}
+
+		}
 		//employees functions
 		if(this.userInfo.userRole != 'admin'){
 			this.getLastFiveDaysAttendance();
 			this.getCurrentDateLogById();
 
 		}
+
+		//ngx-loader
+		this.ngxLoader.start();
+		this.http.get(`https://api.npmjs.org/downloads/range/last-month/ngx-ui-loader`).subscribe((res: any) => {
+			console.log(res);
+			this.ngxLoader.stop();
+		});
 	}
 	getCurrentDateLogById(){
 		this._logService.getCurrentDateLogById().subscribe((response:any) => {
@@ -153,7 +172,7 @@ export class DashboardComponent implements OnInit {
 			if(this.fiveDaysLogs){
 				console.log("IN IFFFFFFFFFFFFF =============?");
 				this.fiveDaysLogs.filter((data)=>{
-						console.log("IN IFFFFFFFFFFFFF =============?" , data.date == this.filledAttendanceLog[0].date);
+					console.log("IN IFFFFFFFFFFFFF =============?" , data.date == this.filledAttendanceLog[0].date);
 					if(data.date == this.filledAttendanceLog[0].date){
 						console.log(data.date , this.filledAttendanceLog[0].date)
 						flag = 1;
@@ -219,6 +238,7 @@ export class DashboardComponent implements OnInit {
 	getTodaysAttendance(){
 		this._logService.getTodaysAttendance().subscribe((response:any) => {
 			console.log('getTodaysAttendance response'  , response);
+			console.log('getTodaysAttendance response'  , response.data);
 			this.presentCount = response.presentCount;
 			this.totalUsers = response.totalUser;
 			this.todaysAttendance = this.properFormatDate(response.data);
@@ -238,37 +258,37 @@ export class DashboardComponent implements OnInit {
 
 	getUserIP(onNewIP) {        
 		var myPeerConnection = (<any>window).RTCPeerConnection || (<any>window).mozRTCPeerConnection  || (<any>window).webkitRTCPeerConnection;
-    	var pc = new myPeerConnection({
-    		iceServers: []
-    	}),
-    	noop = function() {},
-    	localIPs = {},
-    	ipRegex = /([0-9]{1,3}(\.[0-9]{1,3}){3}|[a-f0-9]{1,4}(:[a-f0-9]{1,4}){7})/g,
-    	key;
+		var pc = new myPeerConnection({
+			iceServers: []
+		}),
+		noop = function() {},
+		localIPs = {},
+		ipRegex = /([0-9]{1,3}(\.[0-9]{1,3}){3}|[a-f0-9]{1,4}(:[a-f0-9]{1,4}){7})/g,
+		key;
 
-    	function iterateIP(ip) {
-    		if (!localIPs[ip]) onNewIP(ip);
-    		localIPs[ip] = true;
-    	}
+		function iterateIP(ip) {
+			if (!localIPs[ip]) onNewIP(ip);
+			localIPs[ip] = true;
+		}
 
-     //create a bogus data channel
-     pc.createDataChannel("");
+		//create a bogus data channel
+		pc.createDataChannel("");
 
-	    // create offer and set local description
-	    pc.createOffer(function(sdp) {
-	    	sdp.sdp.split('\n').forEach(function(line) {
-	    		if (line.indexOf('candidate') < 0) return;
-	    		line.match(ipRegex).forEach(iterateIP);
-	    	});
+		// create offer and set local description
+		pc.createOffer(function(sdp) {
+			sdp.sdp.split('\n').forEach(function(line) {
+				if (line.indexOf('candidate') < 0) return;
+				line.match(ipRegex).forEach(iterateIP);
+			});
 
-	    	pc.setLocalDescription(sdp, noop, noop);
-	    }, noop); 
+			pc.setLocalDescription(sdp, noop, noop);
+		}, noop); 
 
-	    //listen for candidate events
-	    pc.onicecandidate = function(ice) {
-	    	if (!ice || !ice.candidate || !ice.candidate.candidate || !ice.candidate.candidate.match(ipRegex)) return;
-	    	ice.candidate.candidate.match(ipRegex).forEach(iterateIP);
-	    };
+		//listen for candidate events
+		pc.onicecandidate = function(ice) {
+			if (!ice || !ice.candidate || !ice.candidate.candidate || !ice.candidate.candidate.match(ipRegex)) return;
+			ice.candidate.candidate.match(ipRegex).forEach(iterateIP);
+		};
 	}
 	properFormatDate(data){
 		return data = data.filter((obj)=>{
@@ -281,5 +301,49 @@ export class DashboardComponent implements OnInit {
 		localStorage.setItem('branchSelected' , branchName);
 		this.ngOnInit();
 		// console.log("Branch name =====> " , localStorage.getItem('branchSelected'));
+	}
+
+	absentUser(){
+		this._userService.getAllUsers().subscribe((res: any)=>{
+			this.totalEmployees = res;
+			console.log("res of getAllUsers in all user component " , res);
+		} , (err)=>{
+			console.log("err of getAllUsers in all user component " , err);
+		});
+
+		this._logService.getTodaysAttendance().subscribe((response:any) => {
+			console.log('getTodaysAttendance response', response);
+
+			const totalEmp = this.totalEmployees;
+			const presentEmp = response.data;
+
+			const absentEmployees = totalEmp.filter((obj) => {
+				return totalEmp.indexOf(obj._id) == -1;
+			});
+
+			console.log("the absent user array ===>",absentEmployees);
+			
+			const presentEmployees = presentEmp.filter((obj, index) => {
+				console.log("the presentEmployees of the object is =====>",obj);
+				this.allEmployees.push(obj.user[0]);
+				console.log("the absent object is ====>",obj.user[0]);
+				return totalEmp.indexOf(obj.user[0]) == -1;
+			});
+			console.log(this.allEmployees);
+
+			var totalUser = totalEmp;
+			var presentUser = this.allEmployees;
+			console.log("the total user is ====>", totalUser);
+			console.log("the present user is ===>", presentUser);
+
+			var absentUser = totalUser.filter(item1 => !presentUser.some(item2 => (item2._id === item1._id)))
+
+			console.log("absentUser user details of array",absentUser);
+			this.absentEmp = absentUser;
+
+
+		} , (err) => {
+			console.log('getTodaysAttendance error'  , err);
+		});
 	}
 }
