@@ -3,6 +3,7 @@
   padding-bottom: 100px;
   position: relative; 
   overflow: hidden;
+  height: 300px;
 }
 
 .timeline-wrapper .btn-wrapper {

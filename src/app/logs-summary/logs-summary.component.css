@@ -52,3 +52,7 @@
     color: #fff;
     background-color: #5e72e4;
 }
+
+.absentWidth {
+    max-width: calc( 100% - 55%) !important;
+}

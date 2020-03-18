@@ -22,7 +22,7 @@ export class UserProfileComponent implements OnInit {
 	myForm:FormGroup;
 	userInfo:any;
 	password:any;
-	edit:any;
+	edit:any = [];
 	userId:any;
 	show:boolean = false;
 
@@ -63,7 +63,21 @@ export class UserProfileComponent implements OnInit {
 		title: 'This is a test title 4',
 		image: 'https://picsum.photos/600/400'
 	},
-	
+	{
+		year: '2018',
+		title: 'This is a test title 4',
+		image: 'https://picsum.photos/600/400'
+	},
+	{
+		year: '2005',
+		title: 'This is a test title 2',
+		image: 'https://picsum.photos/600/400'
+	},
+	{
+		year: '2018',
+		title: 'This is a test title 4',
+		image: 'https://picsum.photos/600/400'
+	},
 	];	
 
 	allDataLogs = [];
@@ -80,13 +94,11 @@ export class UserProfileComponent implements OnInit {
 		) {
 		var self = this
 		$(document).ready(function(){
-
+			
 			if(<HTMLInputElement>document.getElementById('timeline')) {
-				console.log("CALLED");
 				let timeline = new Timeline('timeline', self.data);
 				console.log("time line =====>", timeline);
 				timeline.init();
-
 			}
 		});
 
@@ -99,7 +111,6 @@ export class UserProfileComponent implements OnInit {
 		
 		this.userInfo = JSON.parse(localStorage.getItem('currentUser'));
 		this.userId = this._route.snapshot.paramMap.get('id');
-		console.log(this.userId);
 		console.log("the edit component data is:", this.userInfo);
 		this.myForm = new FormGroup({
 			userRole: new FormControl('', [Validators.required]),

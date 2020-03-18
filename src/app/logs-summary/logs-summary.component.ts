@@ -340,8 +340,7 @@ export class LogsSummaryComponent implements OnInit {
 								console.log("the absent object is ====>",obj.user[0]);
 								return totalEmp.indexOf(obj.user[0]) == -1;
 							});
-							console.log(this.allEmployeesLogs);
-
+							
 							var totalUser = totalEmp;
 							var presentUser = this.allEmployeesLogs;
 							console.log("the total user is ====>", totalUser);

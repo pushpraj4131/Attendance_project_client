@@ -14,7 +14,7 @@ import { HttpClient } from '@angular/common/http';
 export class EditProfileComponent implements OnInit {
 	editForm:FormGroup;
 	passForm:FormGroup;
-	edit:any;
+	edit:any = [];
 	userInfo:any;
 	show:boolean = false;
 	password:any;

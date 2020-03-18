@@ -329,14 +329,13 @@ export class DashboardComponent implements OnInit {
 				console.log("the absent object is ====>",obj.user[0]);
 				return totalEmp.indexOf(obj.user[0]) == -1;
 			});
-			console.log(this.allEmployees);
 
 			var totalUser = totalEmp;
 			var presentUser = this.allEmployees;
 			console.log("the total user is ====>", totalUser);
 			console.log("the present user is ===>", presentUser);
 
-			var absentUser = totalUser.filter(item1 => !presentUser.some(item2 => (item2._id === item1._id)))
+			var absentUser = totalUser.filter((item1) => !presentUser.some((item2) => (item2._id === item1._id)))
 
 			console.log("absentUser user details of array",absentUser);
 			this.absentEmp = absentUser;

@@ -78,7 +78,7 @@
                   </button>
                 </div>
                 <div class="col" *ngIf="userInfo.userRole == 'admin'">
-                  <input class="mb-0 custom-input" placeholder="search name" id="searchName" (keyup)="searchByName(searchData)"  type="text">
+                  <input class="mb-0 custom-input" placeholder="Search name" id="searchName" (keyup)="searchByName(searchData)"  type="text">
                 </div>
                 <div class="input-daterange datepicker row align-items-center" *ngIf="userInfo.userRole != 'admin'">
                   <div class="col mt-3">
@@ -87,7 +87,7 @@
                         <div class="input-group-prepend">
                           <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
                         </div>
-                        <input style="cursor: pointer;" readonly class="form-control" id="reportrange" placeholder="search Record" type="text" value="---">
+                        <input style="cursor: pointer;" readonly class="form-control" id="reportrange" placeholder="Search Record" type="text" value="---">
                       </div>
                     </div>
                   </div>
@@ -266,17 +266,17 @@
 <!-- absent user details list -->
 <!-- Modal -->
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered" role="document">
+  <div class="modal-dialog modal-dialog-centered absentWidth" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLabel">Absent User Detail's</h5>
       </div>
-      <div class="modal-body p-0">
+      <div class="modal-body p-0" style="overflow: auto;  max-height: 350px">
         <table class="table align-items-center table-flush table-hover">
           <thead class="thead-light" *ngIf="userInfo.userRole == 'admin'">
-            <th>Designation</th>
-            <th>E-mail</th>
             <th>name</th>
+            <th>E-mail</th>
+            <th>Designation</th>
           </thead>
           <tbody>
             <ng-container>
