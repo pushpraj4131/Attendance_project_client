@@ -247,4 +247,36 @@ export class UserDetailComponent implements OnInit {
 	// 		return obj.date;
 	// 	});
 	// }
+	getBackGroundColorSingleEmployee(value){
+		console.log("value of color" , value);
+		if(typeof value != 'string'){
+			if(value < 30600){
+				return  '#ff686810'
+			}else{
+				return  '#00800010'
+			}
+		}else{
+			if(value == 'Sunday'){
+				return  '#8c8cf366'
+			}else{
+				return  'silver'
+			}
+		}
+	}
+	getColorSingleEmployee(value){
+		console.log("VALUE +++++++++++++>", value);
+		if(typeof value != 'string'){
+			if(value < 30600){
+				return  'red'
+			}else{
+				return  'green'
+			}
+		}else{
+			if(value == 'Sunday'){
+				return  'blue'
+			}else{
+				return  'black'
+			}
+		}
+	}
 }
