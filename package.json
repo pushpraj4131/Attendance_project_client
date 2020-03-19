@@ -22,6 +22,7 @@
     "@angular/platform-browser": "~7.2.0",
     "@angular/platform-browser-dynamic": "~7.2.0",
     "@angular/router": "~7.2.0",
+    "@creative-tim-official/argon-dashboard-free": "^1.2.0",
     "@ng-select/ng-select": "^2.20.5",
     "@sweetalert2/themes": "^3.1.0",
     "angular-timeline": "^1.7.0",

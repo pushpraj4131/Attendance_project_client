@@ -9,6 +9,7 @@
     width: 100%;
   }
 }
+
 .button {
   border: 0;
   /*background: #0087cc;*/
@@ -22,40 +23,49 @@
   padding: 12px 20px;
   transition: all .1s linear;
 }
+
 .button:active {
   box-shadow: 0 2px 0 #11cdef;
   transform: translateY(5px);
 }
+
 .viewMore{
   cursor: pointer;
 }
+
 .viewMore:hover{
   color: red;
   cursor: pointer;
 }
+
 .custom-input{
   outline: none;
   border: 0;
   border-bottom: 1px  solid blue !important;
 }
+
 .nameClick{
   outline: none;
   cursor: pointer;
 }
+
 .nameClick:hover{
   color: red;
 }
+
 .absentUser{
   cursor: pointer;
 }
 
 .nav-pills .nav-link.active, .nav-pills .show>.nav-link {
-    color: #5e72e4;
+ /*   color: #fff;
+    background-color: #5e72e4;*/
+    color: black;
     background-color: white;
 }
 
 .nav-pills .nav-link {
-    color: #fff;
+    color: white;
     background-color: #5e72e4;
 }
 

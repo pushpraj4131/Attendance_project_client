@@ -180,6 +180,7 @@ export class UserDetailComponent implements OnInit {
 				console.log("response of getLogsReportById" , res);
 				if(res.foundLogs){
 					this.logs = res.foundLogs;
+					console.log("the foundLogs response is ====>", this.logs);
 					this.totalHoursToWork = res.TotalHoursToComplete; 
 					this.totalHoursWorked = res.TotalHoursCompleted; 
 				}

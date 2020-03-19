@@ -57,7 +57,6 @@ export class DashboardComponent implements OnInit {
 	ngOnInit() {
 		var branchName = localStorage.getItem('branchSelected');
 		// localStorage.setItem('branchSelected' , 'ahemdabad');
-		// console.log(branchName);
 		// this.getAllUsers();
 
 		this.checkIp();
@@ -65,7 +64,6 @@ export class DashboardComponent implements OnInit {
 		var self = this;
 		$(document).ready(function(){
 			if(branchName == 'rajkot'){
-
 				$("#rajkot").addClass( "active");
 				$("#ahemdabad").removeClass("active");
 			}else{
@@ -73,8 +71,16 @@ export class DashboardComponent implements OnInit {
 				$("#ahemdabad").addClass("active");
 				$("#rajkot").removeClass("active");
 			}
+			// $("#ahemdabad").addClass( "active");
 			$('[data-toggle="tooltip"]').tooltip();   
 		});
+
+		if (branchName == null) {
+		localStorage.setItem('branchSelected' , 'ahemdabad');	
+		console.log(branchName);
+		}
+		
+
 		this.userInfo = JSON.parse(localStorage.getItem("currentUser"));
 		this.notifyParent.emit(this.userInfo);
 		if(!this.userInfo){
@@ -219,6 +225,8 @@ export class DashboardComponent implements OnInit {
 		console.log("logiut ccalled");
 		this._loginService.logout();
 		this.router.navigate(['login']);
+		localStorage.removeItem('branchSelected');
+
 	}
 	openModel(index){
 		console.log("hey" , index);

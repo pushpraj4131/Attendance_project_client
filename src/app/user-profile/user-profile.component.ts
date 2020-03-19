@@ -231,33 +231,55 @@ export class UserProfileComponent implements OnInit {
 		} , (err)=>{
 			console.log("err of getLogsReportById" , err);
 		});
+
+		this._logService.getReportFlagWise(body).subscribe(async(res:any) => {
+			console.log("the body is ===>", body);
+			console.log("the alldata of date res is ====>", res);
+		}, (err) => {
+			console.log("the data of err is ====>", err);
+		}) 
 	}
-
-
 
 	public barChartOptions: ChartOptions = {
 		responsive: true,
-		scales: { xAxes: [{}], yAxes: [{}] },
-			};
-			public barChartLabels: Label[] = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'];
-			public barChartType: ChartType = 'bar';
-			public barChartLegend = true;
-
-			public barChartData: ChartDataSets[] = [
-			{ data: [8.30, 4, 5.30, 6.40, 7.10, 4, 6, 3, 7.50, 3.50, 5, 5.10], label: 'Series A' },
-			{ data: [4, 5, 2, 5, 3, 6, 5.20, 6, 3.80, 1.50, 2.90, 1.50], label: 'Series B' }
-			];
-
-
-			public chartClicked({ event, active }: { event: MouseEvent, active: {}[] }): void {
-				console.log(event, active);
+		scales: { xAxes: [{
+			scaleLabel: {
+				display: true,
+				labelString: 'Date'
 			}
-
-			public chartHovered({ event, active }: { event: MouseEvent, active: {}[] }): void {
-				console.log(event, active);
+		}], yAxes: [{
+			scaleLabel: {
+				display: true,
+				labelString: 'Time'
+			},
+			ticks: {
+				callback: function(value, index, values) {
+					return value + 'pm';
+				},
+				beginAtZero: true
 			}
+		}] },
+	};
 
-			public randomize(): void {
-				this.barChartType = this.barChartType === 'bar' ? 'line' : 'bar';
-			}
-		}
+	public barChartLabels: Label[] = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'];
+	public barChartType: ChartType = 'bar';
+	public barChartLegend = true;
+
+	public barChartData: ChartDataSets[] = [
+	{ data: [8.30, 4, 5.30, 6.40, 7.10, 4, 6, 3, 7.50, 3.50, 5, 5.10], label: 'Series A' },
+	{ data: [4, 5, 2, 5, 3, 6, 5.20, 6, 3.80, 1.50, 2.90, 1.50], label: 'Series B' }
+	];
+
+
+	public chartClicked({ event, active }: { event: MouseEvent, active: {}[] }): void {
+		console.log(event, active);
+	};
+
+	public chartHovered({ event, active }: { event: MouseEvent, active: {}[] }): void {
+		console.log(event, active);
+	}
+
+	public randomize(): void {
+		this.barChartType = this.barChartType === 'bar' ? 'line' : 'bar';
+	}
+}

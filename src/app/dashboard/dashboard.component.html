@@ -8,10 +8,10 @@
       <!-- <a class="h4 mb-0 text-white text-uppercase d-none d-lg-inline-block" >Dashboard1</a> -->
       <ul  *ngIf="userInfo.userRole == 'admin'" class="nav nav-pills nav-fill flex-column flex-sm-row" id="tabs-text" role="tablist">
         <li class="nav-item">
-          <a class="nav-link mb-sm-3 mb-md-0 "  id="rajkot" data-toggle="tab" href="#tabs-text-1" role="tab" aria-controls="tabs-text-1" aria-selected="true" (click)="branchSelector('rajkot')">Rajkot</a>
+          <a class="nav-link mb-sm-3 mb-md-0 "  id="rajkot" data-toggle="tab" href="#tabs-text-1" role="tab" aria-controls="tabs-text-1" aria-selected="false" (click)="branchSelector('rajkot')">Rajkot</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link mb-sm-3 mb-md-0" id="ahemdabad" data-toggle="tab" href="#tabs-text-2" role="tab" aria-controls="tabs-text-2" aria-selected="false" (click)="branchSelector('ahemdabad')">Ahemdabad</a>
+          <a class="nav-link mb-sm-3 mb-md-0" id="ahemdabad" data-toggle="tab" href="#tabs-text-2" role="tab" aria-controls="tabs-text-2" aria-selected="true" (click)="branchSelector('ahemdabad')">Ahemdabad</a>
         </li>
       </ul>
       <ul class="navbar-nav align-items-center d-none d-md-flex">
@@ -269,17 +269,16 @@
   </div>
 </div>
 
-<!-- absent user details list -->
-<!-- Modal -->
+<!-- absent user details list Modal -->
 <div class="modal fade" id="exampleModal" tabindex="-1">
   <div class="modal-dialog modal-dialog-centered absentWidth">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLabel">Absent User Detail's</h5>
       </div>
-      <div class="modal-body p-0 " style="overflow: auto; ; max-height: 350px">
-        <table  style="width: 100% " class="table-flush table-hover table align-items-center"  cellpadding="10px">
-          <thead  *ngIf="userInfo.userRole == 'admin'">
+      <div class="modal-body p-0" style="overflow: auto; ; max-height: 350px">
+        <table  style="width: 100%" class="table  table-hover">
+          <thead class="thead-light"  *ngIf="userInfo.userRole == 'admin'">
             <th>Name</th>
             <th>E-mail</th>
             <th>Designation</th>

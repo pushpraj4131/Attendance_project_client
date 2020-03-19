@@ -263,8 +263,7 @@
 </div>
 
 
-<!-- absent user details list -->
-<!-- Modal -->
+<!-- absent user details list Modal-->
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered absentWidth" role="document">
     <div class="modal-content">
@@ -272,14 +271,13 @@
         <h5 class="modal-title" id="exampleModalLabel">Absent User Detail's</h5>
       </div>
       <div class="modal-body p-0" style="overflow: auto;  max-height: 350px">
-        <table class="table align-items-center table-flush table-hover">
+        <table class="table table-flush table-hover">
           <thead class="thead-light" *ngIf="userInfo.userRole == 'admin'">
             <th>name</th>
             <th>E-mail</th>
             <th>Designation</th>
           </thead>
           <tbody>
-            <ng-container>
               <tr *ngFor="let data of absentEmp ; let i = index"  [routerLink]="['all-users/user-detail/', data._id]" data-dismiss="modal" class="absentUser">
                 <th scope="row">
                   {{data.name}}
@@ -291,7 +289,6 @@
                   {{data.designation}}
                 </td>
               </tr>
-            </ng-container>
           </tbody>
         </table>
       </div>

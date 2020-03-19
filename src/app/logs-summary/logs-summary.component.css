@@ -56,3 +56,7 @@
 .absentWidth {
     max-width: calc( 100% - 55%) !important;
 }
+
+.absentUser{
+  cursor: pointer;
+}

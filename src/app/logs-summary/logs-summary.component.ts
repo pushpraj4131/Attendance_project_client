@@ -150,7 +150,7 @@ export class LogsSummaryComponent implements OnInit {
 					this._loginService.logout();
 					this.router.navigate(['login']);
 				}
-				hello = [];
+				
 				allEmployees = {
 					"diffrence": ""
 				};
