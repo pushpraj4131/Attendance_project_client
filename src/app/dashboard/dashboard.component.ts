@@ -123,11 +123,11 @@ export class DashboardComponent implements OnInit {
 		});
 	}
 	checkIp(){
-
+		console.log("hye in check");
 		this._loginService.getIpCliente().subscribe((response)=>{
-			console.log("this --------------> ",response);
 		},(err)=>{
-			if(err.error.text == '119.160.195.171' || err.error.text == '27.57.190.69' || err.error.text == '27.54.180.182 ' || err.error.text == '122.170.44.56'){
+			console.log("this --------------> ",err);
+			if(err.error.text == '119.160.195.171' || err.error.text == '27.57.190.69' || err.error.text == '27.54.180.182' || err.error.text == '122.170.44.56'){
 				this.loginFlag = true;
 				this.userInfo['loginFlag'] = true;
 				localStorage.setItem('currentUser', JSON.stringify(this.userInfo));

@@ -140,20 +140,26 @@
  								</tr>
  							</thead>
  							<tbody>
- 								<tr *ngFor="let data of logs | paginate:{itemsPerPage: 5, currentPage:p}; let i = index">
- 									<th scope="row" class="text-uppercase">
- 										{{ data.date }}
- 									</th>
- 									<td>
- 										{{data.day}}
- 									</td>
- 									<td>
- 										{{data.diffrence}}
- 									</td>
- 									<td>
- 										<a  id="viewMore" (click)="openModel(5 * (p - 1) + i)"><span class="viewMore">View More</span></a>
- 									</td>
- 								</tr>
+ 								<ng-container *ngFor="let data of logs  | paginate:{itemsPerPage: 10, currentPage:p}; let i = index">
+										<tr  *ngIf="data.message" [ngStyle]="{'background-color':getBackGroundColorSingleEmployee(data.message) , 'color' : getColorSingleEmployee(data.message)}">
+											<td  >{{data.date}}</td>
+											<td colspan="3" align="center">{{data.message}}</td>
+										</tr>
+										<tr  *ngIf="!data.message"  style="border-left: 6px solid red; margin-top: 1px" [ngStyle]="{'background-color':getBackGroundColorSingleEmployee(data.seconds) , 'color' : getColorSingleEmployee(data.seconds)}">
+											<th scope="row">
+												{{ data.date }}
+											</th>
+											<td>
+												{{data.day}}
+											</td>
+											<td>
+												{{data.diffrence}}
+											</td>
+											<td>
+												<a  id="viewMore" (click)="openModel(5 * (p - 1) + i)"><span class="viewMore">View More</span></a>
+											</td>
+										</tr>
+									</ng-container>
  							</tbody>
  							<pagination-controls *ngIf="userInfo.userRole == 'admin' && logs == '' ? false : true"  (pageChange)="p=$event"></pagination-controls>
  						</table>
