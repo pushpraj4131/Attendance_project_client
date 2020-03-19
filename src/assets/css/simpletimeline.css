@@ -2,8 +2,8 @@
   padding-top: 100px;
   padding-bottom: 100px;
   position: relative; 
-  overflow: hidden;
-  height: 300px;
+  overflow-x: hidden;
+  height: 380px;
 }
 
 .timeline-wrapper .btn-wrapper {
@@ -68,7 +68,10 @@
   opacity: 0;
   transition: all 400ms;
   position: absolute;
-  width: 500px;
+  width: 250px;
+  height: 100px;
+  margin: 15px;
+  object-fit: cover;
   background-color: #fff;
   visibility: hidden;
   top: 60px;

@@ -154,6 +154,7 @@ export class UserDetailComponent implements OnInit {
 				console.log("response of getLogsReportById" , res);
 				if(res.foundLogs){
 					this.logs = res.foundLogs;
+
 					this.logs.forEach((objData)=>{
 						if(objData.diffrence == null){
 							objData['seconds'] = 'AB';
@@ -166,6 +167,7 @@ export class UserDetailComponent implements OnInit {
 						}
 					});
 					console.log("ALL logs ========>", this.logs);
+
 					this.totalHoursToWork = res.TotalHoursToComplete; 
 					this.totalHoursWorked = res.TotalHoursCompleted; 
 				}
