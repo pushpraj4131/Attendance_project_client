@@ -122,32 +122,6 @@ export class UserDetailComponent implements OnInit {
 		});
 	}
 
-	// toDate(value){
-	// 	console.log(value , this.searchForm.value);
-	// 	this.isDisable =false;
-	// }
-	// getInitialRecord(){
-	// 	this.search = false;
-	// 	this._logService.getLastFiveDaysAttendance(this.userId).subscribe(async (response:any) => {
-	// 		console.log("last five days response" , response);
-	// 		if(response.foundLogs){
-	// 			// await this.properFormatDate(response.foundLogs);
-	// 			this.totalHoursToWork = response.TotalHoursToComplete; 
-	// 			this.totalHoursWorked = response.TotalHoursCompleted; 
-	// 			console.log("total hours attednent ====>" , this.totalHoursToWork);
-	// 			console.log("total hours to attendnace====>" , this.totalHoursWorked);
-	// 			this.fiveDaysLogs = response.foundLogs;
-	// 			this.logs = [];
-	// 		}else if(response.length == 0 && !response.foundLogs){
-	// 			this.fiveDaysLogs = [];
-	// 		}else{
-	// 			this.fiveDaysLogs = [];
-	// 		}
-	// 		// await this.calculateTotalDuration(this.fiveDaysLogs , 5 , moment() , moment().subtract(6, 'days'));
-	// 	} ,(err) => {
-	// 		console.log("last five days error" , err);
-	// 	});
-	// }
 	resetForm(){
 		this.search = false;
 		(<HTMLInputElement>document.getElementById("reportrange")).value = "";
@@ -180,6 +154,18 @@ export class UserDetailComponent implements OnInit {
 				console.log("response of getLogsReportById" , res);
 				if(res.foundLogs){
 					this.logs = res.foundLogs;
+					this.logs.forEach((objData)=>{
+						if(objData.diffrence == null){
+							objData['seconds'] = 'AB';
+						}
+						else if(objData.diffrence == '-'){
+							objData['seconds'] = 'N/A';	
+						}
+						else if(objData.diffrence != '-' || objData.diffrence != null){
+							objData['seconds'] = moment.duration(objData.diffrence).asSeconds();
+						}
+					});
+					console.log("ALL logs ========>", this.logs);
 					this.totalHoursToWork = res.TotalHoursToComplete; 
 					this.totalHoursWorked = res.TotalHoursCompleted; 
 				}

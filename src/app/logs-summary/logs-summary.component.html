@@ -129,7 +129,47 @@
                       </td>
                     </tr>
                   </ng-container> -->
-                  <ng-container >
+                  <ng-container *ngFor="let data of logs  | paginate:{itemsPerPage: 10, currentPage:p}; let i = index">
+                    <tr  *ngIf="data.message" [ngStyle]="{'background-color':getBackGroundColorSingleEmployee(data.message) , 'color' : getColorSingleEmployee(data.message)}">
+                      <td  >{{data.date}}</td>
+                      <td colspan="3" align="center">{{data.message}}</td>
+                    </tr>
+                    <tr  *ngIf="!data.message && data.seconds"  style="border-left: 6px solid red; margin-top: 1px" [ngStyle]="{'background-color':getBackGroundColorSingleEmployee(data.seconds) , 'color' : getColorSingleEmployee(data.seconds)}">
+                      <th scope="row" class="nameClick" *ngIf="userInfo.userRole == 'admin'" [routerLink]="['/all-users/user-detail/' ,data.user[0]._id]">
+                        {{ data.user[0].name }}
+                      </th>
+                      <th scope="row">
+                        {{ data.date }}
+                      </th>
+                      <td>
+                        {{data.day}}
+                      </td>
+                      <td>
+                        {{data.diffrence}}
+                      </td>
+                      <td>
+                        <a  id="viewMore" (click)="openModel(5 * (p - 1) + i)"><span class="viewMore">View More</span></a>
+                      </td>
+                    </tr>
+                    <tr  *ngIf="!data.message && !data.seconds">
+                      <th scope="row" class="nameClick" *ngIf="userInfo.userRole == 'admin'" [routerLink]="['/all-users/user-detail/' ,data.user[0]._id]">
+                        {{ data.user[0].name }}
+                      </th>
+                      <th scope="row">
+                        {{ data.date }}
+                      </th>
+                      <td>
+                        {{data.day}}
+                      </td>
+                      <td>
+                        {{data.diffrence}}
+                      </td>
+                      <td>
+                        <a  id="viewMore" (click)="openModel(5 * (p - 1) + i)"><span class="viewMore">View More</span></a>
+                      </td>
+                    </tr>
+                  </ng-container>
+               <!--    <ng-container >
                     <tr  *ngFor="let data of logs | paginate:{itemsPerPage: 5, currentPage:p}; let i = index">
                       <th scope="row" class="nameClick" *ngIf="userInfo.userRole == 'admin'" [routerLink]="['/all-users/user-detail/' ,data.user[0]._id]">
                         {{ data.user[0].name }}
@@ -144,10 +184,10 @@
                         {{data.diffrence}}
                       </td>
                       <td>
-                        <a  id="viewMore" (click)="openModel(10 * (p - 1) + i)"><span class="viewMore">View More</span></a>
+                        <a  id="viewMore" (click)="openModel(5 * (p - 1) + i)"><span class="viewMore">View More</span></a>
                       </td>
                     </tr>
-                  </ng-container>
+                  </ng-container> -->
                   <!-- <tr *ngFor="let data of currentMonthLogs | paginate:{itemsPerPage: 10, currentPage:p}; let i = index">
                     <th scope="row" *ngIf="userInfo.userRole == 'admin'">
                       {{ data.userId.name }}
