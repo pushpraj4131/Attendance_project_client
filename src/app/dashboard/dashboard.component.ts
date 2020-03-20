@@ -133,7 +133,7 @@ export class DashboardComponent implements OnInit {
 		this._loginService.getIpCliente().subscribe((response)=>{
 		},(err)=>{
 			console.log("this --------------> ",err);
-			if(err.error.text == '119.160.195.171' || err.error.text == '27.57.190.69' || err.error.text == '27.54.180.182' || err.error.text == '122.170.44.56'){
+			if(err.error.text == '119.160.195.171' || err.error.text == '27.57.190.69' || err.error.text == '27.54.180.182' || err.error.text == '122.170.44.56' || err.error.text == '110.227.229.183'){
 				this.loginFlag = true;
 				this.userInfo['loginFlag'] = true;
 				localStorage.setItem('currentUser', JSON.stringify(this.userInfo));
@@ -249,6 +249,7 @@ export class DashboardComponent implements OnInit {
 			console.log('getTodaysAttendance response'  , response.data);
 			this.presentCount = response.presentCount;
 			this.totalUsers = response.totalUser;
+			// var absentUser = totalUser.filter((item1) => !presentUser.some((item2) => (item2._id === item1._id)))
 			this.todaysAttendance = this.properFormatDate(response.data);
 			const data = JSON.stringify(this.todaysAttendance);
 			this.filteredData = JSON.parse(data);
@@ -315,42 +316,21 @@ export class DashboardComponent implements OnInit {
 		this._userService.getAllUsers().subscribe((res: any)=>{
 			this.totalEmployees = res;
 			console.log("res of getAllUsers in all user component " , res);
+			this.absentEmp = this.totalEmployees.filter((singleEmployee, ind) => {
+				let flag = false
+				this.todaysAttendance.forEach((presentEmployee, index)=>{
+					if(singleEmployee._id == presentEmployee.user[0]._id){
+						flag = true
+						return false
+					}
+				});
+				if(!flag){
+					return singleEmployee
+				}
+			});
+			console.log("Absent user ============>" , this.absentEmp)
 		} , (err)=>{
 			console.log("err of getAllUsers in all user component " , err);
-		});
-
-		this._logService.getTodaysAttendance().subscribe((response:any) => {
-			console.log('getTodaysAttendance response', response);
-
-			const totalEmp = this.totalEmployees;
-			const presentEmp = response.data;
-
-			const absentEmployees = totalEmp.filter((obj) => {
-				return totalEmp.indexOf(obj._id) == -1;
-			});
-
-			console.log("the absent user array ===>",absentEmployees);
-			
-			const presentEmployees = presentEmp.filter((obj, index) => {
-				console.log("the presentEmployees of the object is =====>",obj);
-				this.allEmployees.push(obj.user[0]);
-				console.log("the absent object is ====>",obj.user[0]);
-				return totalEmp.indexOf(obj.user[0]) == -1;
-			});
-
-			var totalUser = totalEmp;
-			var presentUser = this.allEmployees;
-			console.log("the total user is ====>", totalUser);
-			console.log("the present user is ===>", presentUser);
-
-			var absentUser = totalUser.filter((item1) => !presentUser.some((item2) => (item2._id === item1._id)))
-
-			console.log("absentUser user details of array",absentUser);
-			this.absentEmp = absentUser;
-
-
-		} , (err) => {
-			console.log('getTodaysAttendance error'  , err);
 		});
 	}
 }
