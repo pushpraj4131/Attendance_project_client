@@ -161,12 +161,12 @@
 										</tr>
 									</ng-container>
  							</tbody>
- 							<pagination-controls *ngIf="userInfo.userRole == 'admin' && logs == '' ? false : true"  (pageChange)="p=$event"></pagination-controls>
  						</table>
  						<div scope="row" *ngIf="logs && logs == '' ? true : false">
  							<h3 class="text-center p-2">{{totalHoursToWork}}</h3>
  						</div>													 
  					</div>
+ 							<pagination-controls style="text-align: center; margin-top: 5px" *ngIf="userInfo.userRole == 'admin' && logs == '' ? false : true"  (pageChange)="p=$event"></pagination-controls>
  				</div>
  			</div>
  		</div>

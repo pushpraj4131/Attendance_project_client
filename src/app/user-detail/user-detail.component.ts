@@ -48,12 +48,20 @@ export class UserDetailComponent implements OnInit {
 		private ngxLoader: NgxUiLoaderService
 	){
 		
+		//ngx-ui-loader
+		this.ngxLoader.start();
+		this.http.get(`https://api.npmjs.org/downloads/range/last-month/ngx-ui-loader`).subscribe((res: any) => {
+			console.log(res);
+			this.ngxLoader.stop();
+		});
 		this.userInfo  = JSON.parse(localStorage.getItem("currentUser"));
 		this.userId = this.activatedRoute.snapshot.paramMap.get('id');
 		console.log(this.userId);
 	}
 
 	ngOnInit() {
+		this.getUserById();
+		// this.getInitialRecord();
 	
 		var self = this;
 		
@@ -88,15 +96,7 @@ export class UserDetailComponent implements OnInit {
 		});
 	
 		
-		this.getUserById();
-		// this.getInitialRecord();
 
-		//ngx-ui-loader
-		this.ngxLoader.start();
-		this.http.get(`https://api.npmjs.org/downloads/range/last-month/ngx-ui-loader`).subscribe((res: any) => {
-			console.log(res);
-			this.ngxLoader.stop();
-		});
 	}
 	
 	editProfile(){
@@ -265,5 +265,11 @@ export class UserDetailComponent implements OnInit {
 				return  'black'
 			}
 		}
+	}
+	properFormatDate(data){
+		return data = data.filter((obj)=>{
+			return obj.date = moment(obj.date).utc().format("DD/MM/YYYY");
+
+		});
 	}
 }

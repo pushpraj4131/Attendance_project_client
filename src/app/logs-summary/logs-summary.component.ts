@@ -149,7 +149,7 @@ export class LogsSummaryComponent implements OnInit {
 			this.previousData = this.data;
 			this._logService.getLogsBySingleDate(this.data).subscribe(res =>{
 				this.logs = res;
-
+				this. logs = this.sortDataByName(this.logs);
 				// this.logs = this.properFormatDate(res);
 				// this.currentMonthLogs = this.properFormatDate(res);
 				// this.currentMonthLogs = res;
@@ -189,7 +189,9 @@ export class LogsSummaryComponent implements OnInit {
 			// this.currentMonthLogs = this.properFormatDate(response.data);
 			// this.logs = this.properFormatDate(response.data);
 			this.logs = response.data;
+			this.logs = this.properFormatDate(this.logs);
 
+			this.logs = this.sortDataByName(this.logs);
 
 			this.searchData = response.data;
 
@@ -229,6 +231,8 @@ export class LogsSummaryComponent implements OnInit {
 			console.log("response of getLogsReportById" , res);
 			if(res.foundLogs){ 
 				this.logs = res.foundLogs;
+			this.logs = this.properFormatDate(this.logs);
+
 				this.logs.forEach((objData)=>{
 						if(objData.diffrence == null){
 							objData['seconds'] = 'AB';
@@ -364,5 +368,23 @@ export class LogsSummaryComponent implements OnInit {
 					return  'black'
 				}
 			}
+		}
+		sortDataByName(data){
+			data.sort(function(a, b){
+				var nameA=a.user[0].name.toLowerCase().split(" ")[0], nameB=b.user[0].name.toLowerCase().split(" ")[0]
+				// console.log("a =======+>",nameA , "B =======++>",nameB);
+				if (nameA < nameB) //sort string ascending
+					return -1 
+				if (nameA > nameB)
+					return 1
+				return 0 //default return value (no sorting)
+			});
+			return data
+		}
+		properFormatDate(data){
+			return data = data.filter((obj)=>{
+				return obj.date = moment(obj.date).utc().format("DD/MM/YYYY");
+
+			});
 		}
 	}

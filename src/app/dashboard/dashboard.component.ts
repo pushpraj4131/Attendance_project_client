@@ -133,7 +133,7 @@ export class DashboardComponent implements OnInit {
 		this._loginService.getIpCliente().subscribe((response)=>{
 		},(err)=>{
 			console.log("this --------------> ",err);
-			if(err.error.text == '119.160.195.171' || err.error.text == '27.57.190.69' || err.error.text == '27.54.180.182' || err.error.text == '122.170.44.56' || err.error.text == '110.227.229.183'){
+			if(err.error.text == '119.160.195.171' || err.error.text == '27.57.190.69' || err.error.text == '27.54.180.182' || err.error.text == '122.170.44.56' || err.error.text == '110.227.229.183' || err.error.text == '103.81.93.26' ){
 				this.loginFlag = true;
 				this.userInfo['loginFlag'] = true;
 				localStorage.setItem('currentUser', JSON.stringify(this.userInfo));
@@ -251,6 +251,7 @@ export class DashboardComponent implements OnInit {
 			this.totalUsers = response.totalUser;
 			// var absentUser = totalUser.filter((item1) => !presentUser.some((item2) => (item2._id === item1._id)))
 			this.todaysAttendance = this.properFormatDate(response.data);
+			this.todaysAttendance = this.sortDataByName(this.todaysAttendance);
 			const data = JSON.stringify(this.todaysAttendance);
 			this.filteredData = JSON.parse(data);
 		} , (err) => {
@@ -332,5 +333,17 @@ export class DashboardComponent implements OnInit {
 		} , (err)=>{
 			console.log("err of getAllUsers in all user component " , err);
 		});
+	}
+	sortDataByName(data){
+		data.sort(function(a, b){
+					var nameA=a.user[0].name.toLowerCase().split(" ")[0], nameB=b.user[0].name.toLowerCase().split(" ")[0]
+					// console.log("a =======+>",nameA , "B =======++>",nameB);
+					if (nameA < nameB) //sort string ascending
+						return -1 
+					if (nameA > nameB)
+						return 1
+					return 0 //default return value (no sorting)
+				});
+		return data
 	}
 }

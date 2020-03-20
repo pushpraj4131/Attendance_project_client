@@ -139,7 +139,6 @@ export class UserReportComponent implements OnInit {
 		}
 		this._logsService.getReportFlagWise(value).subscribe(async(res:any)=>{
 			console.log("response ================>" , res);
-			console.log("response ================>" , res.length);
 			this.isDisable = false;
 			if(res.length == 0 ){
 				console.log("IN IF");
@@ -152,7 +151,6 @@ export class UserReportComponent implements OnInit {
 							this.foundRecordUser = dev;
 						}
 					});
-
 					this.tableHeader = [];
 					this.logs = [];
 					this.tableData = [];
@@ -426,7 +424,10 @@ export class UserReportComponent implements OnInit {
 		localStorage.setItem('branchSelected' , branchName);
 		this.ngOnInit();
 	}
-	sortValue(valueToSort){
+	properFormatDate(data){
+		return data = data.filter((obj)=>{
+			return obj.date = moment(obj.date).utc().format("DD/MM/YYYY");
 
+		});
 	}
 }

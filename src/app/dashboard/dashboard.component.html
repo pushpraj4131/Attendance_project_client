@@ -188,7 +188,8 @@
                     </tr>
                   </ng-container>
                   <ng-container *ngIf="userInfo.userRole == 'admin'">
-                    <tr *ngFor="let data of todaysAttendance | paginate:{itemsPerPage: 5, currentPage:p}; let i = index">
+                    <tr *ngFor="let data of todaysAttendance 
+                    ; let i = index">
                       <th scope="row" class="nameClick" [routerLink]="['/all-users/user-detail/' ,data.user[0]._id]">
                         {{ data.user[0].name }}
                       </th>
@@ -204,8 +205,8 @@
                     </tr>
                   </ng-container>
                 </tbody>
-                <pagination-controls *ngIf="userInfo.userRole == 'admin'"  (pageChange)="p=$event"></pagination-controls>
               </table>
+                <!-- <pagination-controls class= "my-pagination" style="text-align: center" *ngIf="userInfo.userRole == 'admin'"  (pageChange)="p=$event"></pagination-controls> -->
             </div>
           </div>
         </div>
