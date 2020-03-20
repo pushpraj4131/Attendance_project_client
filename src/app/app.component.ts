@@ -1,4 +1,4 @@
-import { Component , OnInit , Input} from '@angular/core';
+import { Component , OnInit , Input, ChangeDetectorRef} from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { LoginService } from './services/login.service';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
@@ -47,16 +47,73 @@ export class AppComponent implements OnInit{
 	userInfo = JSON.parse(localStorage.getItem("currentUser"));
 	constructor( private route: ActivatedRoute,
 		private router: Router, private loginService: LoginService, private http: HttpClient,
-		private ngxLoader: NgxUiLoaderService) {  
-		// this.userInfo = JSON.parse(localStorage.getItem("currentUser"));
+		private ngxLoader: NgxUiLoaderService, public _change: ChangeDetectorRef) {  
+		this.userInfo = JSON.parse(localStorage.getItem("currentUser"));
 		this.loginService.isLoggedIn.subscribe((data) => {
-			if(data === 'loggedIn') {
+			if(data == 'loggedIn') {
+				if(this.userInfo == 'admin'){
+					this.navData = [
+					{
+						name: 'Dashboard',
+						iconClass: 'ni ni-tv-2 text-primary',
+						routerLink: "",
+						userRole: ""
+					},
+					{
+						name: "Logs Summary",
+						iconClass: "ni ni-bullet-list-67 text-red",
+						routerLink: "/logs-summary",
+						userRole: ""
+					},
+					{
+						name: "Employees Report",
+						iconClass: "ni ni-single-02 text-yellow",
+						routerLink: "/user-report",
+						userRole: "admin"
+					},
+					{
+						name: "Add Employees",
+						iconClass: "fas fa-user-friends text-blue",
+						routerLink: "/add-user",
+						userRole: "admin"
+					},
+					{
+						name: "My Profile",
+						iconClass: "fas fa-id-card text-green",
+						routerLink: "",
+						userRole: "",
+					},
+					]
+				}else{
+					this.navData = [
+					{
+						name: 'Dashboard',
+						iconClass: 'ni ni-tv-2 text-primary',
+						routerLink: "",
+						userRole: ""
+					},
+					{
+						name: "Logs Summary",
+						iconClass: "ni ni-bullet-list-67 text-red",
+						routerLink: "logs-summary",
+						userRole: ""
+					},
+					{
+						name: "My Profile",
+						iconClass: "fas fa-id-card text-green",
+						routerLink: "",
+						userRole: "",
+					},
+					]	
+				}
 				this.userInfo = JSON.parse(localStorage.getItem("currentUser"));
+				
 			}
-		})
+		});
 	}
 
 	ngOnInit() {
+			this._change.detectChanges()
 		console.log("called");
 		if(!this.userInfo){
 			this.router.navigate(['/login']);
