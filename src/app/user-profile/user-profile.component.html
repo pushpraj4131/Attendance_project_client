@@ -45,7 +45,7 @@
 
 		<div class="header bg-gradient-primary pb-8 pt-5 pt-md-8">
 		</div>
-		<div class="container-fluid mt--5">
+		<div class="container-fluid mt--5" *ngIf="edit">
 			<div class="emp-profile">
 				<div class="row">
 					<div class="col-10">
@@ -76,7 +76,7 @@
 						</div>
 					</div>
 				</div>
-				<div class="tab-content" id="myTabContent">
+				<div class="tab-content" id="myTabContent" *ngIf="edit">
 					<div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
 						<div class="row">
 							<div class="col-xl-12">
@@ -178,9 +178,9 @@
 									<div id="menu1" class="tab-pane fade">
 										<div class="row">
 											<div class="col-12">
-												<div id="timeline"  style="background: #e1e1e1;"></div>
+												
+												<div id="timeline"  style="background: #e1e1e1; border-radius: 10px;"></div>
 											</div>
-										</div>
 									</div>
 								</div>
 							</div>

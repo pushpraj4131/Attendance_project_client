@@ -99,8 +99,8 @@
 								<div class="form-group">
 									<label class="userRole">User Role : </label>
 									<select formControlName="userRole" class="form-control" (change)="getType($event)">
-										<option selected>admin</option>
-										<option>employee</option>
+										<option selected value="admin">Admin</option>
+										<option value="employee">Employee</option>
 									</select>
 								</div>
 							</div>
@@ -108,8 +108,8 @@
 								<div class="form-group">
 									<label class="userRole">Branch : </label>
 									<select formControlName="branch" class="form-control" (change)="getBranch($event)">
-										<option >rajkot</option>
-										<option>ahemdabad</option>
+										<option value="rajkot">Rajkot</option>
+										<option value="ahemedabad">Ahemdabad</option>
 									</select>
 								</div>
 							</div>
