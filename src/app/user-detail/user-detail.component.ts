@@ -91,7 +91,7 @@ export class UserDetailComponent implements OnInit {
 						cb(start, end);
 
 					});
-				}, 150);
+				}, 200);
 			$('[data-toggle="tooltip"]').tooltip();   
 		});
 	
