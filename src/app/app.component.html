@@ -41,8 +41,8 @@
           </div>
         </form>
       
-        <ul class="navbar-nav">
-          <ng-container *ngFor="let obj of navData; let i = index"> 
+        <ul class="navbar-nav" *ngIf="userInfo.userRole == 'admin'">
+          <ng-container *ngFor="let obj of navDataAdmin; let i = index"> 
             <li [class.active]="selectedIndex == i" class="nav-item" *ngIf="obj.name != 'My Profile'" (click)="selectIndex(i)">
               <a class="nav-link" routerLink="{{obj.routerLink}}">
                 <i class="{{obj.iconClass}}"></i>
@@ -56,9 +56,24 @@
               </a>
             </li>
           </ng-container>
-            
           
         </ul>
+        <ul class="navbar-nav" *ngIf="userInfo.userRole != 'admin'">
+          <ng-container *ngFor="let obj of navDataEmployee; let i = index"> 
+            <li [class.active]="selectedIndex == i" class="nav-item" *ngIf="obj.name != 'My Profile'" (click)="selectIndex(i)">
+              <a class="nav-link" routerLink="{{obj.routerLink}}">
+                <i class="{{obj.iconClass}}"></i>
+                {{obj.name}}
+              </a>
+            </li>
+            <li [class.active]="selectedIndex == i" class="nav-item" *ngIf="obj.name == 'My Profile'" (click)="selectIndex(i)">
+              <a class="nav-link" (click)="userProfile()">
+                <i class="{{obj.iconClass}}"></i>
+                {{obj.name}}
+              </a>
+            </li>
+          </ng-container>
+         </ul>   
         <!-- Divider -->
         <hr class="my-3">
         <!-- Heading -->
