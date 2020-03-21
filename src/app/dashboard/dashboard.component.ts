@@ -140,8 +140,8 @@ export class DashboardComponent implements OnInit {
 				// alert(err.error.text + " --> Valid IP");	
 			}
 			else{	
-				this.loginFlag = false;
-				this.userInfo['loginFlag'] = false;
+				this.loginFlag = true;
+				this.userInfo['loginFlag'] = true;
 				localStorage.setItem('currentUser', JSON.stringify(this.userInfo));
 				// alert(err.error.text + " ---> Invalid IP");
 			}
