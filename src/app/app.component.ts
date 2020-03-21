@@ -11,39 +11,95 @@ import { HttpClient } from '@angular/common/http';
 })
 export class AppComponent implements OnInit{
 	// userInfo : any;	
-	selectedIndex:any
-	navData:any = [
-		{
-			name: 'Dashboard',
-			iconClass: 'ni ni-tv-2 text-primary',
-			routerLink: "",
-			userRole: ""
-		},
-		{
-			name: "Logs Summary",
-			iconClass: "ni ni-bullet-list-67 text-red",
-			routerLink: "/logs-summary",
-			userRole: ""
-		},
-		{
-			name: "Employees Report",
-			iconClass: "ni ni-single-02 text-yellow",
-			routerLink: "/user-report",
-			userRole: "admin"
-		},
-		{
-			name: "Add Employees",
-			iconClass: "fas fa-user-friends text-blue",
-			routerLink: "/add-user",
-			userRole: "admin"
-		},
-		{
-			name: "My Profile",
-			iconClass: "fas fa-id-card text-green",
-			routerLink: "",
-			userRole: "",
-		},
+	selectedIndex:any = 0
+	navData:any = [];
+
+	navDataAdmin = [
+	{
+		name: 'Dashboard',
+		iconClass: 'ni ni-tv-2 text-primary',
+		routerLink: "",
+		userRole: ""
+	},
+	{
+		name: "Logs Summary",
+		iconClass: "ni ni-bullet-list-67 text-red",
+		routerLink: "/logs-summary",
+		userRole: ""
+	},
+	{
+		name: "Employees Report",
+		iconClass: "ni ni-single-02 text-yellow",
+		routerLink: "/user-report",
+		userRole: "admin"
+	},
+	{
+		name: "Add Employees",
+		iconClass: "fas fa-user-friends text-blue",
+		routerLink: "/add-user",
+		userRole: "admin"
+	},
+	{
+		name: "My Profile",
+		iconClass: "fas fa-id-card text-green",
+		routerLink: "",
+		userRole: "",
+	},
 	]
+	
+	navDataEmployee = [
+	{
+		name: 'Dashboard',
+		iconClass: 'ni ni-tv-2 text-primary',
+		routerLink: "",
+		userRole: ""
+	},
+	{
+		name: "Logs Summary",
+		iconClass: "ni ni-bullet-list-67 text-red",
+		routerLink: "logs-summary",
+		userRole: ""
+	},
+	{
+		name: "My Profile",
+		iconClass: "fas fa-id-card text-green",
+		routerLink: "",
+		userRole: "",
+	},
+	]	
+	
+	// navData:any = [
+	// 	{
+	// 		name: 'Dashboard',
+	// 		iconClass: 'ni ni-tv-2 text-primary',
+	// 		routerLink: "",
+	// 		userRole: ""
+	// 	},
+	// 	{
+	// 		name: "Logs Summary",
+	// 		iconClass: "ni ni-bullet-list-67 text-red",
+	// 		routerLink: "/logs-summary",
+	// 		userRole: ""
+	// 	},
+	// 	{
+	// 		name: "Employees Report",
+	// 		iconClass: "ni ni-single-02 text-yellow",
+	// 		routerLink: "/user-report",
+	// 		userRole: "admin"
+	// 	},
+	// 	{
+	// 		name: "Add Employees",
+	// 		iconClass: "fas fa-user-friends text-blue",
+	// 		routerLink: "/add-user",
+	// 		userRole: "admin"
+	// 	},
+	// 	{
+	// 		name: "My Profile",
+	// 		iconClass: "fas fa-id-card text-green",
+	// 		routerLink: "",
+	// 		userRole: "",
+	// 	},
+	// ]
 	userInfo = JSON.parse(localStorage.getItem("currentUser"));
 	constructor( private route: ActivatedRoute,
 		private router: Router, private loginService: LoginService, private http: HttpClient,
@@ -51,69 +107,13 @@ export class AppComponent implements OnInit{
 		this.userInfo = JSON.parse(localStorage.getItem("currentUser"));
 		this.loginService.isLoggedIn.subscribe((data) => {
 			if(data == 'loggedIn') {
-				if(this.userInfo == 'admin'){
-					this.navData = [
-					{
-						name: 'Dashboard',
-						iconClass: 'ni ni-tv-2 text-primary',
-						routerLink: "",
-						userRole: ""
-					},
-					{
-						name: "Logs Summary",
-						iconClass: "ni ni-bullet-list-67 text-red",
-						routerLink: "/logs-summary",
-						userRole: ""
-					},
-					{
-						name: "Employees Report",
-						iconClass: "ni ni-single-02 text-yellow",
-						routerLink: "/user-report",
-						userRole: "admin"
-					},
-					{
-						name: "Add Employees",
-						iconClass: "fas fa-user-friends text-blue",
-						routerLink: "/add-user",
-						userRole: "admin"
-					},
-					{
-						name: "My Profile",
-						iconClass: "fas fa-id-card text-green",
-						routerLink: "",
-						userRole: "",
-					},
-					]
-				}else{
-					this.navData = [
-					{
-						name: 'Dashboard',
-						iconClass: 'ni ni-tv-2 text-primary',
-						routerLink: "",
-						userRole: ""
-					},
-					{
-						name: "Logs Summary",
-						iconClass: "ni ni-bullet-list-67 text-red",
-						routerLink: "logs-summary",
-						userRole: ""
-					},
-					{
-						name: "My Profile",
-						iconClass: "fas fa-id-card text-green",
-						routerLink: "",
-						userRole: "",
-					},
-					]	
-				}
 				this.userInfo = JSON.parse(localStorage.getItem("currentUser"));
 				
-			}
+			}	
 		});
 	}
 
 	ngOnInit() {
-			this._change.detectChanges()
 		console.log("called");
 		if(!this.userInfo){
 			this.router.navigate(['/login']);
@@ -121,6 +121,7 @@ export class AppComponent implements OnInit{
 			console.log("called 2nd time");
 			console.log(this.userInfo);
 			this.userInfo = JSON.parse(localStorage.getItem("currentUser"));
+			this._change.detectChanges()
 			this.router.navigate(['/']);
 		}
 	}
