@@ -33,7 +33,7 @@
     "daterangepicker": "^3.0.5",
     "font-awesome": "^4.7.0",
     "getmac": "^1.4.6",
-    "jquery": "^3.4.1",
+    "jquery": "^3.5.0",
     "moment": "^2.24.0",
     "mongoose-autopopulate": "^0.9.1",
     "ng2-charts": "^2.2.3",
