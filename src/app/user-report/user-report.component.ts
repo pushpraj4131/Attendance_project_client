@@ -139,8 +139,9 @@ export class UserReportComponent implements OnInit {
 		}
 		this._logsService.getReportFlagWise(value).subscribe(async(res:any)=>{
 			console.log("response ================>" , res);
+// res = await this.properFormatDate(res.foundLogs)
 			this.isDisable = false;
-			if(res.length == 0 ){
+			if(res.length == 0){
 				console.log("IN IF");
 				if(value.id != 'All'){
 					this.allEmployeeSearch = false;
@@ -187,12 +188,7 @@ export class UserReportComponent implements OnInit {
 				console.log("table header =++>",this.tableHeader);
 				console.log("table daat =+++>",this.tableData);
 					
-				$(document).ready(()=>{
-					setTimeout(() => {
-						console.log($('#allEmployeeTable').html()/*.split('--><!----><!--bindings={}--><!--bindings={"ng-reflect-ng-if": "true"}-->"')*/);
-					}, 1000);
-					console.log("HELLOO");
-				});
+				
 			}else{
 				console.log("IN ELSE");
 				this.allEmployeeSearch = false;
@@ -227,7 +223,8 @@ export class UserReportComponent implements OnInit {
 				}
 				this.searchRecordDate = moment(value.startDate).format('MMMM YYYY');
 				this.allLogs = null;
-				this.logs = res.foundLogs;
+				this.logs = await this.properFormatDate(res.foundLogs);
+
 				this.totalHoursWorked = res.TotalHoursCompleted;
 				this.totalHoursToWork = res.TotalHoursToComplete;
 			}
@@ -426,7 +423,9 @@ export class UserReportComponent implements OnInit {
 	}
 	properFormatDate(data){
 		return data = data.filter((obj)=>{
-			return obj.date = moment(obj.date).utc().format("DD/MM/YYYY");
+			console.log("typeof ", typeof obj.date , obj.date);
+			if(typeof obj.date == 'string')
+				return obj.date = moment(obj.date).utc().format("DD/MM/YYYY");
 
 		});
 	}

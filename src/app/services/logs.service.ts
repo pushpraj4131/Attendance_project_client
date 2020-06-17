@@ -20,8 +20,9 @@ export class LogsService {
   fillAttendance(){
   	var body = {
   		userId : JSON.parse(localStorage.getItem('currentUser'))._id,
-      loginFlag : JSON.parse(localStorage.getItem('currentUser')).loginFlag
-  	}
+      loginFlag : JSON.parse(localStorage.getItem('currentUser')).loginFlag,
+      // lastLog: "1:15:00 am",
+    }
     console.log("Body Of Fill attendace",  body);
   	return this._http.post( config.baseApiUrl+"attendance/fill-attendance" , body);	
   }
